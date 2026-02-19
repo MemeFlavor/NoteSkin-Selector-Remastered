@@ -3,6 +3,7 @@ luaDebugMode = true
 local SkinSaves    = require 'mods.NoteSkin Selector Remastered.api.classes.skins.static.SkinSaves'
 local SkinToggleUI = require 'mods.NoteSkin Selector Remastered.api.classes.skins.static.ui.SkinToggleUI'
 
+local F    = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
 local math = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
 
 local SKIN_EDITOR_BG_WIDTH  = getPropertyFromClass('flixel.FlxG', 'width')
@@ -155,18 +156,22 @@ addLuaSprite('mouseTexture', true)
 local SkinEditorGSave = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
 
+local directions = {'left', 'down', 'up', 'right'}
+local colors = {'purple0', 'blue0', 'green0', 'red0'}
+for strumIndex = 1, 4 do
+     local awesomeTag = F"notesTesta{strumIndex}"
+     makeAnimatedLuaSprite(awesomeTag, 'noteSkins/NOTE_assets-Arrow Funk', 330 + (105*(strumIndex - 1)), 100)
+     scaleObject(awesomeTag, 0.65, 0.65)
+     addAnimationByPrefix(awesomeTag, F"{directions[strumIndex]}_confirm", F"{directions[strumIndex]} confirm", 24, false)
+     addAnimationByPrefix(awesomeTag, F"{directions[strumIndex]}_pressed", F"{directions[strumIndex]} pressed", 24, false)
+     addAnimationByPrefix(awesomeTag, F"{directions[strumIndex]}_colored", colors[stumIndex], 24, false)
+     addAnimationByPrefix(awesomeTag, directions[strumIndex], F"arrow{directions[strumIndex]:upper()}", 24, false)
+     playAnim(awesomeTag, directions[strumIndex], false)
+     setObjectCamera(awesomeTag, 'camHUD')
+     addLuaSprite(awesomeTag)
+end
 
-
-makeAnimatedLuaSprite('notesTesta', 'noteSkins/NOTE_assets-Arrow Funk', 330, 100)
-scaleObject('notesTesta', 0.65, 0.65)
-addAnimationByPrefix('notesTesta', 'left_confirm', 'left confirm', 24, false)
-addAnimationByPrefix('notesTesta', 'left_pressed', 'left press', 24, false)
-addAnimationByPrefix('notesTesta', 'left_colored', 'purple0', 24, false)
-addAnimationByPrefix('notesTesta', 'left', 'arrowLEFT', 24, false)
-playAnim('notesTesta', 'left', false)
-setObjectCamera('notesTesta', 'camHUD')
-addLuaSprite('notesTesta')
-
+local dir = 1
 
 
 local dx, dy = 0, 0 -- Directional input variables
@@ -182,13 +187,24 @@ function onUpdatePost(elapsed)
           dx = dx / length
           dy = dy / length
 
+          local giX = F"notesTesta{dir}"
+
           if keyboardPressed('D') or keyboardPressed('A') and not (keyboardPressed('D') and keyboardPressed('A')) then
-               setProperty('notesTesta.x', getProperty('notesTesta.x') + dx*di)
+               setProperty(F"{giX}.x", getProperty(F"{giX}.x") + dx*di)
           end
           if keyboardPressed('S') or keyboardPressed('W') and not (keyboardPressed('S') and keyboardPressed('W')) then
-               setProperty('notesTesta.y', getProperty('notesTesta.y') + dy*di)
+               setProperty(F"{giX}.y", getProperty(F"{giX}.y") + dy*di)
           end
 
-          setTextString('animationEditorStrumsInput', math.round(getProperty('notesTesta.x'), 2))
+          setTextString('animationEditorStrumsInput', math.round(getProperty(F"{giX}.x"), 2))
+     end
+
+     if keyboardJustPressed('LBRACKET') and dir > 1 then
+          dir = dir - 1
+          debugPrint(dir)
+     end
+     if keyboardJustPressed('RBRACKET') and dir < 4 then
+          dir = dir + 1
+          debugPrint(dir)
      end
 end
