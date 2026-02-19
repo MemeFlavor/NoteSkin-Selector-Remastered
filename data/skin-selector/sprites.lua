@@ -169,9 +169,9 @@ addLuaText('skinStatePreviewVersion')
 
 local function calculateKeybindOrderPos()
      local results = table.new(4,0)
-     local offsets = {0,-4,-3,0}
+     local offsets = {0,0,0,0}
 
-     local POSITION  = 830
+     local POSITION  = 808
      local INTERVAL  = 105
      for keybindIndex = 1, 4 do
           local INCREMENT = keybindIndex - 1
@@ -186,7 +186,7 @@ for keybindIndex = 1, #keybindOrderPos do
      local skinStateKeybindsPositionX = keybindOrderPos[keybindIndex]
      local skinStateKeybindsPositionY = 250
 
-     makeLuaText(skinStateKeybindsTag, tostring(getKeyBinds(keybindIndex)), nil, skinStateKeybindsPositionX, skinStateKeybindsPositionY)
+     makeLuaText(skinStateKeybindsTag, F" {tostring(getKeyBinds(keybindIndex))}", nil, skinStateKeybindsPositionX, skinStateKeybindsPositionY)
      setTextFont(skinStateKeybindsTag, 'FridayNight.ttf')
      setTextSize(skinStateKeybindsTag, 35)
      setTextBorder(skinStateKeybindsTag, 4, '000000')
