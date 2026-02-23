@@ -2,9 +2,10 @@ luaDebugMode = true
 
 local SkinSaves    = require 'mods.NoteSkin Selector Remastered.api.classes.skins.static.SkinSaves'
 local SkinStates   = require 'mods.NoteSkin Selector Remastered.api.classes.skins.static.SkinStates'
-local SkinToggleUI = require 'mods.NoteSkin Selector Remastered.api.classes.skins.static.ui.SkinToggleUI'
 local SkinNotes    = require 'mods.NoteSkin Selector Remastered.api.classes.skins.notes.SkinNotes'
 local SkinSplashes = require 'mods.NoteSkin Selector Remastered.api.classes.skins.splashes.SkinSplashes'
+
+local FlavorUI_Toggle = require 'mods.NoteSkin Selector Remastered.api.classes.ui.FlavorUI_Toggle'
 
 local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
 local string    = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.string'
@@ -310,8 +311,33 @@ local Skins    = SkinStates:new({Notes, Splashes}, SkinStatesGSave:get('dataStat
 Skins:load()
 Skins:create()
 
-local previewSkinToggleAnims = SkinToggleUI:new('previewSkinToggleAnims', 'PREVIEW_TOGGLE_ANIM_STATUS', SkinStatesGSave:get('PREVIEW_TOGGLE_ANIM_STATUS', 'SAVE', true))
-previewSkinToggleAnims:create(783, 600)
+
+makeAnimatedLuaSprite('previewSkinToggleAnims', 'ui/buttons/preview anim/previewAnimIcon_toggle', 783, 600)
+addAnimationByPrefix('previewSkinToggleAnims', 'active-static', 'active-static', 24, false)
+addAnimationByPrefix('previewSkinToggleAnims', 'active-hovered', 'active-hovered', 24, false)
+addAnimationByPrefix('previewSkinToggleAnims', 'active-focused', 'active-focused', 24, false)
+addAnimationByPrefix('previewSkinToggleAnims', 'inactive-static', 'inactive-static', 24, false)
+addAnimationByPrefix('previewSkinToggleAnims', 'inactive-hovered', 'inactive-hovered', 24, false)
+addAnimationByPrefix('previewSkinToggleAnims', 'inactive-focused', 'inactive-focused', 24, false)
+playAnim('previewSkinToggleAnims', 'inactive-static', true)
+scaleObject('previewSkinToggleAnims', 0.51, 0.562)
+setObjectCamera('previewSkinToggleAnims', 'camHUD')
+setProperty(F"previewSkinToggleAnims.antialiasing", false)
+addLuaSprite('previewSkinToggleAnims')
+
+local previewSkinToggleAnims = FlavorUI_Toggle:new('previewSkinToggleAnims', SkinStatesGSave:get('PREVIEW_TOGGLE_ANIM_STATUS', 'SAVE', true))
+previewSkinToggleAnims.cursorTexture = 'mouseTexture'
+previewSkinToggleAnims.onPostClick   = function(this)
+     for strumIndex = 1, 4 do
+          local skinStateKeybindsTag = F"skinStateKeybinds-{strumIndex}"
+          if this:status_state() == 'active' then
+               setProperty(F"{skinStateKeybindsTag}.alpha", 1)
+          elseif this:status_state() == 'inactive' then
+               setProperty(F"{skinStateKeybindsTag}.alpha", 0.5)
+          end
+     end
+     SkinStatesGSave:get('PREVIEW_TOGGLE_ANIM_STATUS', 'SAVE', true)
+end
 
 -- HScript Stuff --
 
@@ -328,17 +354,7 @@ function onUpdatePost(elapsed)
      Skins:switch()
      Skins:update()
 
-     previewSkinToggleAnims:update(function()
-          for strumIndex = 1, 4 do
-               local skinStateKeybindsTag = F"skinStateKeybinds-{strumIndex}"
-     
-               if previewSkinToggleAnims.toggleCurState == 'active' then
-                    setProperty(F"{skinStateKeybindsTag}.alpha", 1)
-               elseif previewSkinToggleAnims.toggleCurState == 'inactive' then
-                    setProperty(F"{skinStateKeybindsTag}.alpha", 0.5)
-               end
-          end
-     end)
+     previewSkinToggleAnims:update()
 end
 
 function onDestroy()

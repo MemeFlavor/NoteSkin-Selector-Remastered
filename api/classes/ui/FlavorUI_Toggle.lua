@@ -20,6 +20,9 @@ function FlavorUI_Toggle:new(tag, status)
      self.tag    = tag
      self.status = status
 
+     self.cursorTexture = ''
+     self.clicked = false
+     self.hovered = false
      return self
 end
 
@@ -28,6 +31,7 @@ end
 function FlavorUI_Toggle:update()
      self:_click()
      self:_hover()
+     self:_cursor()
      self:onUpdate(self)
 end
 
@@ -37,12 +41,13 @@ end
 function FlavorUI_Toggle:_click()
      if clickObject(self.tag, 'camHUD') then
           playAnim(self.tag, F"{self:status_state()}-focused", true)
-          self.status = not self.status
-
+          self.clicked = true
           self:onClick(self)
      end
      if hoverObject(self.tag, 'camHUD') == true and mouseReleased('left') then
           playAnim(self.tag, F"{self:status_state()}-static", true)
+          self.clicked = false
+          self.status = not self.status
 
           self:onPostClick(self)
      end
@@ -54,10 +59,33 @@ end
 function FlavorUI_Toggle:_hover()
      if hoverObject(self.tag, 'camHUD') == true and not pressedObject(self.tag, 'camHUD') then
           playAnim(self.tag, F"{self:status_state()}-hovered", true)
+          self.hovered = true
+          
           self:onHover(self)
      end
      if hoverObject(self.tag, 'camHUD') == false and not pressedObject(self.tag, 'camHUD') then
           playAnim(self.tag, F"{self:status_state()}-static", true)
+          self.hovered = false
+     end
+end
+
+---
+---@protected
+---@return nil
+function FlavorUI_Toggle:_cursor()
+     if not luaSpriteExists(self.cursorTexture) then
+          return
+     end
+
+     if pressedObject(self.tag, 'camHUD') and self.clicked == true then
+          playAnim(self.cursorTexture, 'handClick', true)
+     end
+
+     if hoverObject(self.tag, 'camHUD') == true  and not pressedObject(self.tag, 'camHUD') then
+          playAnim(self.cursorTexture, 'hand', true)
+     end
+     if hoverObject(self.tag, 'camHUD') == false and not pressedObject(self.tag, 'camHUD') then
+          playAnim(self.cursorTexture, 'idle', true)
      end
 end
 

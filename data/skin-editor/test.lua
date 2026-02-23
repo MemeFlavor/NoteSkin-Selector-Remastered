@@ -19,6 +19,7 @@ setProperty(F"test.antialiasing", false)
 addLuaSprite('test')
 
 local doodoo = FlavorUI_Toggle:new('test', NoteSkinSelector:get('DOODOO', 'SAVE', false))
+doodoo.cursorTexture = 'mouseTexture'
 doodoo.onClick = function(this)
      NoteSkinSelector:set('DOODOO', 'SAVE', this.status)
 end
