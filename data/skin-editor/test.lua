@@ -15,10 +15,17 @@ text.size = 23
 text.max_length = 10
 text.placeholder_content = '000.00'
 
-text:create_test()
+text:create()
 
 function onUpdatePost(elapsed)
      text:update()
+
+     if keyboardJustPressed('E') then
+          text:invalid_field()
+     end
+     if keyboardJustPressed('R') then
+          text:reset_field()
+     end
 end
 
 
