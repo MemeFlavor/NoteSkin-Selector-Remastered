@@ -38,6 +38,18 @@ local dir = 1
 local dx, dy = 0, 0 -- Directional input variables
 local di = 1        -- Amplifier
 function EditorNotes:update_movement()
+     if getVar('skinSearchInputFocus') == true then
+          local giX = F"{self.tag}{dir}"
+
+          if keyboardJustPressed('ENTER') then
+               local pp = runHaxeCode([[
+                    return getVar('skinSearchInput').text;
+               ]])
+               setProperty(F"{giX}.x", pp)
+          end
+          return
+     end
+
      if keyboardPressed('D') then dx = dx + 1 end
      if keyboardPressed('A') then dx = dx - 1 end
      if keyboardPressed('S') then dy = dy + 1 end
@@ -56,16 +68,26 @@ function EditorNotes:update_movement()
           if keyboardPressed('S') or keyboardPressed('W') and not (keyboardPressed('S') and keyboardPressed('W')) then
                setProperty(F"{giX}.y", getProperty(F"{giX}.y") + dy*di)
           end
-          setTextString('animationEditorStrumsInput', math.round(getProperty(F"{giX}.x"), 2))
+          setTextString('skinSearchInput', math.round(getProperty(F"{giX}.x"), 2))
+
+          local do2odoo = math.round(getProperty(F"{giX}.x"), 2)
+          runHaxeCode(F" getVar('skinSearchInput').set_text('{do2odoo}'); ")
+          runHaxeCode(" getVar('skinSearchInput_placeholder').text = ''; ")
      end
 
      if keyboardJustPressed('LBRACKET') and dir > 1 then
           dir = dir - 1
           setTextString('animationEditorStrumsInput', math.round(getProperty(F"{giX}.x"), 2))
+
+          local do2odoo = math.round(getProperty(F"{giX}.x"), 2)
+          runHaxeCode(F" getVar('skinSearchInput').set_text('{do2odoo}'); ")   
      end
      if keyboardJustPressed('RBRACKET') and dir < 4 then
           dir = dir + 1
           setTextString('animationEditorStrumsInput', math.round(getProperty(F"{giX}.x"), 2))
+
+          local do2odoo = math.round(getProperty(F"{giX}.x"), 2)
+          runHaxeCode(F" getVar('skinSearchInput').set_text('{do2odoo}'); ")   
      end
 end
 

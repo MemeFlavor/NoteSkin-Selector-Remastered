@@ -98,6 +98,7 @@ function FlavorUI_TextField:create()
                }
           }
 
+          setVar('skinSearchInput_placeholder', skinSearchInput_placeholder);
           setVar('skinSearchInput', skinSearchInput);
           setVar('skinSearchInput_caret', skinSearchInput_caret);
      ]])
