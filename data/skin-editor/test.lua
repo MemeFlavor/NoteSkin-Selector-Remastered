@@ -9,9 +9,11 @@ for strums = 1,4 do
      fart:create(strums, 410 + (105*(strums - 1)), 100, {0.65, 0.65})
 end
 
-local text = FlavorUI_TextField:new('hi', '',  34, 54+12, 385, 'hahaha')
+local text = FlavorUI_TextField:new('hi', '',  90 + 130, (430-3)*1.36, 385, '')
 text.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 text.size = 23
+text.max_length = 10
+text.placeholder_content = '000.00'
 
 text:create_test()
 

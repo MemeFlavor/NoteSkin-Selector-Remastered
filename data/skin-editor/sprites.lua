@@ -107,14 +107,14 @@ scaleObject('animationEditorColoredBackground', 0.7, 0.8)
 setObjectCamera('animationEditorColoredBackground', 'camHUD')
 addLuaSprite('animationEditorColoredBackground')
 
-makeLuaText('animationEditorStrumsInput', '1234567890', 0, inputTextX, (theUniversalY-3)*1.36)
+--[[ makeLuaText('animationEditorStrumsInput', '1234567890', 0, inputTextX, (theUniversalY-3)*1.36)
 setTextFont('animationEditorStrumsInput', 'tomo.otf')
 setTextSize('animationEditorStrumsInput', 23)
 setTextBorder('animationEditorStrumsInput', 0, '000000')
 setObjectCamera('animationEditorStrumsInput', 'camHUD')
-addLuaText('animationEditorStrumsInput')
+addLuaText('animationEditorStrumsInput') ]]
 
-makeLuaSprite('animationEditorStrumsBackground', 'ui/buttons/value_input3', bgTextX, getProperty('animationEditorStrumsInput.y') - 4)
+makeLuaSprite('animationEditorStrumsBackground', 'ui/buttons/value_input3', bgTextX, (theUniversalY-3)*1.36 - 4)
 scaleObject('animationEditorStrumsBackground', 0.7, 0.8)
 setObjectCamera('animationEditorStrumsBackground', 'camHUD')
 addLuaSprite('animationEditorStrumsBackground')
