@@ -134,16 +134,16 @@ function FlavorUI_TextField:update()
      ]])
 end
 
-function FlavorUI_TextField:invalid_field()
-     runHaxeCode([[
+function FlavorUI_TextField:invalid_field(invalidColor, invalidContent)
+     runHaxeCode(F[[
           var skinSearchInput             = getVar('skinSearchInput');
           var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
 
           skinSearchInput.caretIndex = 1;
           skinSearchInput.set_text('');
      
-          skinSearchInput_placeholder.text  = 'Invalid Skin!';
-          skinSearchInput_placeholder.color = 0xFFB50000;
+          skinSearchInput_placeholder.text  = '${invalidContent}'; // Invalid Skin!
+          skinSearchInput_placeholder.color = ${invalidColor};     // 0xFFB50000
           FlxG.sound.play(Paths.sound('cancel'), 0.5);
           return;
      ]])
@@ -156,8 +156,7 @@ function FlavorUI_TextField:reset_field()
 
           skinSearchInput.caretIndex = 1;
           skinSearchInput.set_text('');
-     
-          setVar('SEARCH_INPUT_TEXT_CONTENT', '');
+
           skinSearchInput_placeholder.text = '${self.placeholder_content}';
           return;
      ]])
