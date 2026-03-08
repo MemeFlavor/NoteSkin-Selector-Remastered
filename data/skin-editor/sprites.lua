@@ -113,3 +113,55 @@ scaleObject('editorInputSpriteSizeY', 0.65, 0.85)
 setObjectCamera('editorInputSpriteSizeY', 'camHUD')
 setProperty('editorInputSpriteSizeY.antialiasing', false)
 addLuaSprite('editorInputSpriteSizeY')
+
+-- Frame --
+
+local FRAMES_SECTION_Y = (363.44 - 5.72)
+local FRAMES_SECTION_TITLE_Y = FRAMES_SECTION_Y - 37
+local FRAMES_SECTION_LABEL_Y = FRAMES_SECTION_Y + 10
+
+local FRAMES_TITLE_X  = 10-5
+local FRAMES_LABEL_X  = 10-9
+local FRAMES_SPRITE_X = 40
+
+makeLuaText('editorTitleFrames', ('Frames'):pad(1, ' '), 0, FRAMES_TITLE_X, FRAMES_SECTION_TITLE_Y)
+setTextFont('editorTitleFrames', 'tomo.otf')
+setTextSize('editorTitleFrames', 20)
+setTextBorder('editorTitleFrames', 3, '000000')
+setObjectCamera('editorTitleFrames', 'camHUD')
+addLuaText('editorTitleFrames')
+
+makeLuaText('editorLabelFrames', ('FPS'):upper():pad(1, ' '), 0, FRAMES_LABEL_X, FRAMES_SECTION_LABEL_Y)
+setTextFont('editorLabelFrames', 'tomo.otf')
+setTextColor('editorLabelFrames', 'c9a0dc')
+setTextSize('editorLabelFrames', 15)
+setTextBorder('editorLabelFrames', 3, '000000')
+setObjectCamera('editorLabelFrames', 'camHUD')
+addLuaText('editorLabelFrames')
+
+makeLuaSprite('editorInputSpriteFrames', 'ui/buttons/value_input6', FRAMES_SPRITE_X, FRAMES_SECTION_Y)
+scaleObject('editorInputSpriteFrames', 0.65, 0.85)
+setObjectCamera('editorInputSpriteFrames', 'camHUD')
+setProperty('editorInputSpriteFrames.antialiasing', false)
+addLuaSprite('editorInputSpriteFrames')
+
+-- File --
+
+local FILE_SECTION_Y = (((463.44+563.44)/2) - 5.72)
+local FILE_SECTION_TITLE_Y = FILE_SECTION_Y - 37
+
+local FILE_TITLE_X  = 10-5
+local FILE_SPRITE_X = 10
+
+makeLuaText('editorTitleFile', ('SKIN FILE PATH:'):pad(1, ' '), 0, FILE_TITLE_X, FILE_SECTION_TITLE_Y)
+setTextFont('editorTitleFile', 'tomo.otf')
+setTextSize('editorTitleFile', 20)
+setTextBorder('editorTitleFile', 3, '000000')
+setObjectCamera('editorTitleFile', 'camHUD')
+addLuaText('editorTitleFile')
+
+makeLuaSprite('editorInputSpriteFile', 'ui/buttons/value_input6', FILE_SPRITE_X, FILE_SECTION_Y)
+scaleObject('editorInputSpriteFile', 0.65, 0.85)
+setObjectCamera('editorInputSpriteFile', 'camHUD')
+setProperty('editorInputSpriteFile.antialiasing', false)
+addLuaSprite('editorInputSpriteFile')

@@ -67,12 +67,32 @@ editorInputFieldSizeY.placeholder_content = '000.00'
 editorInputFieldSizeY:create()
 editorInputFieldSizeY:set_customFilterPattern("[^0-9.]*", "g")
 
+-- Frame --
+
+local FRAMES_SECTION_Y = (363.44 - 5.72)
+local FRAMES_SECTION_FIELD_Y = FRAMES_SECTION_Y + 7
+
+local FRAMES_FIELD_X = 40+8
+
+local editorInputFieldFrames = FlavorUI_TextField:new('editorInputFieldFrames', '', FRAMES_FIELD_X, FRAMES_SECTION_FIELD_Y, 130, '')
+editorInputFieldFrames.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
+editorInputFieldFrames.size = 20
+editorInputFieldFrames.max_length = 3
+editorInputFieldFrames.caret_y = 2
+editorInputFieldFrames.caret_width = 2.5
+editorInputFieldFrames.caret_height = 20
+editorInputFieldFrames.placeholder_content = '00'
+editorInputFieldFrames:create()
+editorInputFieldFrames:set_customFilterPattern("[^0-9]*", "g")
+
 function onUpdate(elapsed)
      editorInputFieldOffsetX:update()
      editorInputFieldOffsetY:update()
 
      editorInputFieldSizeX:update()
      editorInputFieldSizeY:update()
+
+     editorInputFieldFrames:update()
 
      mouse:update()
 end
