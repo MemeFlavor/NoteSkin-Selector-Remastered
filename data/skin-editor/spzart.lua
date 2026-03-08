@@ -39,7 +39,7 @@ editorTextFieldStrumX.placeholder_content = '000.00'
 editorTextFieldStrumX:create()
 editorTextFieldStrumX:set_customFilterPattern("[^0-9.]*", "g") -- ("(\\\\d*\\\\.\\\\d{3})?
 
-local editorTextFieldConfirmY = FlavorUI_TextField:new('editorTextFieldConfirmY', '', 280+240, (563.44 + 0.56)+(25*-6), 140, '')
+local editorTextFieldConfirmY = FlavorUI_TextField:new('editorTextFieldConfirmY', '', 250+240, (563.44 + 0.56)+(25*-6), 140, '')
 editorTextFieldConfirmY.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorTextFieldConfirmY.size = 22
 editorTextFieldConfirmY.max_length = 10
@@ -47,7 +47,7 @@ editorTextFieldConfirmY.placeholder_content = '000.00'
 editorTextFieldConfirmY:create()
 editorTextFieldConfirmY:set_customFilterPattern("[^0-9.]*", "g")
 
-local editorTextFieldPressedY = FlavorUI_TextField:new('editorTextFieldPressedY', '', 280+240, (563.44 + 0.56)+(25*-4), 140, '')
+local editorTextFieldPressedY = FlavorUI_TextField:new('editorTextFieldPressedY', '', 250+240, (563.44 + 0.56)+(25*-4), 140, '')
 editorTextFieldPressedY.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorTextFieldPressedY.size = 22
 editorTextFieldPressedY.max_length = 10
@@ -55,7 +55,7 @@ editorTextFieldPressedY.placeholder_content = '000.00'
 editorTextFieldPressedY:create()
 editorTextFieldPressedY:set_customFilterPattern("[^0-9.]*", "g")
 
-local editorTextFieldColoredY = FlavorUI_TextField:new('editorTextFieldColoredY', '', 280+240, (563.44 + 0.56)+(25*-2), 140, '')
+local editorTextFieldColoredY = FlavorUI_TextField:new('editorTextFieldColoredY', '', 250+240, (563.44 + 0.56)+(25*-2), 140, '')
 editorTextFieldColoredY.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorTextFieldColoredY.size = 22
 editorTextFieldColoredY.max_length = 10
@@ -63,7 +63,7 @@ editorTextFieldColoredY.placeholder_content = '000.00'
 editorTextFieldColoredY:create()
 editorTextFieldColoredY:set_customFilterPattern("[^0-9.]*", "g")
 
-local editorTextFieldStrumY = FlavorUI_TextField:new('editorTextFieldStrumY', '', 280+240, (563.44 + 0.56), 140, '')
+local editorTextFieldStrumY = FlavorUI_TextField:new('editorTextFieldStrumY', '', 250+240, (563.44 + 0.56), 140, '')
 editorTextFieldStrumY.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorTextFieldStrumY.size = 22
 editorTextFieldStrumY.max_length = 10

@@ -44,7 +44,7 @@ addLuaText('editorTitleStrumTag')
 
 -- b --
 
-local function doodoo(tag, label, color, x, y)
+local function doodoo(tag, label, color, x, y, bgX, bgY)
      local editorLabelTag = F"editorLabelTag${tag:upperAtStart()}${label:upper()}"
      local editorBGTag    = F"editorBGTag${tag:upperAtStart()}${label:upper()}"
 
@@ -56,18 +56,23 @@ local function doodoo(tag, label, color, x, y)
      setObjectCamera(editorLabelTag, 'camHUD')
      addLuaText(editorLabelTag)
      
-     makeLuaSprite(editorBGTag, 'ui/buttons/value_input5', 230 + x, (563.44 - 5.72) + y)
+     makeLuaSprite(editorBGTag, 'ui/buttons/value_input5', 230 + x + bgX, (563.44 - 5.72) + y + bgY)
      scaleObject(editorBGTag, 0.7, 0.8)
      setObjectCamera(editorBGTag, 'camHUD')
      addLuaSprite(editorBGTag)
 end
 
-doodoo('strums', 'x', 'ff746c', 0, 0)
-doodoo('colored', 'x', 'ff746c', 0, 25*-2)
-doodoo('pressed', 'x', 'ff746c', 0, 25*-4)
-doodoo('confirm', 'x', 'ff746c', 0, 25*-6)
+doodoo('strums', 'x', 'ff746c', 0, 0, 0, 0)
+doodoo('colored', 'x', 'ff746c', 0, 25*-2, 0, 0)
+doodoo('pressed', 'x', 'ff746c', 0, 25*-4, 0, 0)
+doodoo('confirm', 'x', 'ff746c', 0, 25*-6, 0, 0)
 
-doodoo('strums', 'y', '77dd77', 280, 0)
-doodoo('colored', 'y', '77dd77', 280, 25*-2)
-doodoo('pressed', 'y', '77dd77', 280, 25*-4)
-doodoo('confirm', 'y', '77dd77', 280, 25*-6)
+doodoo('strums', 'y', '77dd77', 250, 0, 0, 0)
+doodoo('colored', 'y', '77dd77', 250, 25*-2, 0, 0)
+doodoo('pressed', 'y', '77dd77', 250, 25*-4, 0, 0)
+doodoo('confirm', 'y', '77dd77', 250, 25*-6, 0, 0)
+
+doodoo('strums', 'fps', '9c77dd', 250*2, 0, 35, 0)
+doodoo('colored', 'fps', '9c77dd', 250*2, 25*-2, 35, 0)
+doodoo('pressed', 'fps', '9c77dd', 250*2, 25*-4, 35, 0)
+doodoo('confirm', 'fps', '9c77dd', 250*2, 25*-6, 35, 0)
