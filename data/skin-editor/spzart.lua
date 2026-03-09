@@ -85,6 +85,24 @@ editorInputFieldFrames.placeholder_content = '00'
 editorInputFieldFrames:create()
 editorInputFieldFrames:set_customFilterPattern("[^0-9]*", "g")
 
+-- File --
+
+local FILES_SECTION_Y = (((463.44+563.44)/2) - 5.72)
+local FILES_SECTION_FIELD_Y = FILES_SECTION_Y + 7
+
+local FILES_FIELD_X = 10+8
+
+local editorInputFieldFiles = FlavorUI_TextField:new('editorInputFieldFiles', '', FILES_FIELD_X, FILES_SECTION_FIELD_Y, 360, '')
+editorInputFieldFiles.font = 'NoteSkin Selector Remastered/fonts/tomo.otf'
+editorInputFieldFiles.size = 20
+editorInputFieldFiles.max_length = 100
+editorInputFieldFiles.caret_y = 2
+editorInputFieldFiles.caret_width = 2.5
+editorInputFieldFiles.caret_height = 20
+editorInputFieldFiles.placeholder_content = 'NOTE_assets-'
+editorInputFieldFiles:create()
+editorInputFieldFiles:set_field('NOTE_assets-')
+
 function onUpdate(elapsed)
      editorInputFieldOffsetX:update()
      editorInputFieldOffsetY:update()
@@ -93,6 +111,8 @@ function onUpdate(elapsed)
      editorInputFieldSizeY:update()
 
      editorInputFieldFrames:update()
+
+     editorInputFieldFiles:update()
 
      mouse:update()
 end
