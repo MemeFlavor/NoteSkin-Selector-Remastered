@@ -9,21 +9,23 @@ local pressedObject = funkinlua.pressedObject
 ---@class FlavorUI_TextField
 local FlavorUI_TextField = {}
 
-function FlavorUI_TextField:new(tag, sprite, x, y, width, content)
+function FlavorUI_TextField:new(tag, text, x, y, width)
      local self = setmetatable({}, {__index = self})
-     self.tag     = tag
-     self.sprite  = sprite
-     self.x       = x
-     self.y       = y
-     self.width   = width
-     self.content = content
-
+     self.tag   = tag
+     self.text  = text
+     self.x     = x
+     self.y     = y
+     self.width = width
+     
      self.font            = ''
      self.size            = 16
      self.antialiasing    = true
      self.color           = '0xffffffff'
      self.selection_color = '0xff1565de'
      self.max_length      = 50
+
+     self.field_offset_x = 0
+     self.field_offset_y = 0
 
      self.caret_x       = 0
      self.caret_y       = 0
@@ -32,12 +34,20 @@ function FlavorUI_TextField:new(tag, sprite, x, y, width, content)
      self.caret_offsetY = 1
      self.caret_color   = '0xffffffff'
 
-     self.placeholder_offset_x = 1
-     self.placeholder_offset_y = 1
-     self.placeholder_content = ''
-     self.placeholder_color   = '0xFFB3B3B5'
+     self.placeholder_offset_x = 0
+     self.placeholder_offset_y = 0
+     self.placeholder_content  = ''
+     self.placeholder_color    = '0xFFB3B3B5'
+     self.placeholder_offset_x = 0
+     self.placeholder_offset_y = 0
 
-     self.haxeCode = ''
+     self.onCreate     = ''
+     self.onCreatePost = ''
+     self.onUpdate     = ''
+     self.onChange     = ''
+     self.onFieldMax   = ''
+     self.onField      = ''
+
      return self
 end
 
@@ -49,12 +59,15 @@ function FlavorUI_TextField:create()
           import backend.Paths;
           import backend.ui.PsychUIInputText;
           import psychlua.LuaUtils;
+          import StringTools;
 
           /* Sprites */
 
+          ${self.onCreate:gsub('this', self.tag)}
+
           var skinSearchInput_caret:FlxSprite     = new FlxSprite(0, 0);
-          var skinSearchInput_placeholder:FlxText = new FlxText(${self.x}+${self.placeholder_offset_x}, ${self.y}+${self.placeholder_offset_y}, 0, "${self.content}");
-          var skinSearchInput:PsychUIInputText    = new PsychUIInputText(${self.x}, ${self.y}, ${self.width}, "${self.content}", ${self.size});
+          var skinSearchInput_placeholder:FlxText = new FlxText(${self.x}+1, ${self.y}+1, 0, "${self.text}");
+          var skinSearchInput:PsychUIInputText    = new PsychUIInputText(${self.x}, ${self.y}, ${self.width}, "${self.text}", ${self.size});
      
           skinSearchInput_caret.makeGraphic(${self.caret_width}, ${self.caret_height}, ${self.caret_color});
           skinSearchInput_caret.y            = skinSearchInput.caret.y + ${self.caret_offsetY};
@@ -68,10 +81,12 @@ function FlavorUI_TextField:create()
           skinSearchInput_placeholder.borderSize   = -1;
           skinSearchInput_placeholder.cameras      = [game.camHUD];
           skinSearchInput_placeholder.antialiasing = ${self.antialiasing};
+          skinSearchInput_placeholder.offset.set(${self.placeholder_offset_x}, ${self.placeholder_offset_y});
 
           skinSearchInput.textObj.font  = Paths.mods('${self.font}');
           skinSearchInput.textObj.color = ${self.color};
           skinSearchInput.textObj.antialiasing = ${self.antialiasing};
+          skinSearchInput.textObj.offset.set(${self.field_offset_x}, ${self.field_offset_y});
           skinSearchInput.bg.visible           = false;
           skinSearchInput.behindText.visible   = false;
           skinSearchInput.caret.alpha     = 0;
@@ -80,8 +95,6 @@ function FlavorUI_TextField:create()
           skinSearchInput.maxLength = ${self.max_length};
           skinSearchInput.deleteSelection();
           skinSearchInput.onChange  = function(preText:String, curText:String) {
-               FlxG.sound.play(Paths.soundRandom('keyclicks/keyClick', 1, 8, true), 1);
-               
                if (curText.length > 0) {
                     skinSearchInput_placeholder.text  = '';
                } else {
@@ -90,24 +103,25 @@ function FlavorUI_TextField:create()
                }
      
                if (curText.length >= ${self.max_length}) {
-                    FlxG.sound.play(Paths.sound('cancel'), 0.5);
                     skinSearchInput.textObj.color = FlxColor.RED;
+                    ${self.onFieldMax:gsub('this', self.tag)}
                } else {
                     skinSearchInput.textObj.color = FlxColor.WHITE;
+                    ${self.onField:gsub('this', self.tag)}
                }
                setVar('skinSearchInput_preText', preText);
                setVar('skinSearchInput_curText', curText);
+               ${self.onChange:gsub('this', self.tag)}
           };
 
-          
-
-          add(skinSearchInput);
           add(skinSearchInput_placeholder);
           add(skinSearchInput_caret);
-
+          add(skinSearchInput);
+          
           setVar('skinSearchInput', skinSearchInput);
-          setVar('skinSearchInput_placeholder', skinSearchInput_placeholder);
           setVar('skinSearchInput_caret', skinSearchInput_caret);
+          setVar('skinSearchInput_placeholder', skinSearchInput_placeholder);
+          ${self.onCreatePost:gsub('this', self.tag)}
      ]]):gsub('skinSearchInput', self.tag))
 end
 
@@ -124,6 +138,7 @@ function FlavorUI_TextField:update()
 
           ClientPrefs.toggleVolumeKeys(PsychUIInputText.focusOn == null);
           game.allowDebugKeys = PsychUIInputText.focusOn == null;
+          ${self.onUpdate:gsub('this', self.tag)}
      ]]):gsub('skinSearchInput', self.tag))
 end
 
