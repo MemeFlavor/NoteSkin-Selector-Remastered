@@ -32,6 +32,8 @@ function FlavorUI_TextField:new(tag, sprite, x, y, width, content)
      self.caret_offsetY = 1
      self.caret_color   = '0xffffffff'
 
+     self.placeholder_offset_x = 1
+     self.placeholder_offset_y = 1
      self.placeholder_content = ''
      self.placeholder_color   = '0xFFB3B3B5'
 
@@ -51,7 +53,7 @@ function FlavorUI_TextField:create()
           /* Sprites */
 
           var skinSearchInput_caret:FlxSprite     = new FlxSprite(0, 0);
-          var skinSearchInput_placeholder:FlxText = new FlxText(${self.x}, ${self.y}, 0, "${self.content}");
+          var skinSearchInput_placeholder:FlxText = new FlxText(${self.x}+${self.placeholder_offset_x}, ${self.y}+${self.placeholder_offset_y}, 0, "${self.content}");
           var skinSearchInput:PsychUIInputText    = new PsychUIInputText(${self.x}, ${self.y}, ${self.width}, "${self.content}", ${self.size});
      
           skinSearchInput_caret.makeGraphic(${self.caret_width}, ${self.caret_height}, ${self.caret_color});
@@ -125,6 +127,24 @@ function FlavorUI_TextField:update()
      ]]):gsub('skinSearchInput', self.tag))
 end
 
+function FlavorUI_TextField:set_field(value)
+     runHaxeCode((F[[
+          var skinSearchInput             = getVar('skinSearchInput');
+          var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
+
+          skinSearchInput.set_text('${value}');
+          skinSearchInput_placeholder.text  = '';
+     ]]):gsub('skinSearchInput', self.tag))
+end
+
+function FlavorUI_TextField:get_field()
+     runHaxeCode((F[[
+          var skinSearchInput = getVar('skinSearchInput');
+          setVar('skinSearchInput_textContent', skinSearchInput.textObj.textField.text);
+     ]]):gsub('skinSearchInput', self.tag))
+     return getVar(('skinSearchInput_textContent'):gsub('skinSearchInput', self.tag))
+end
+
 function FlavorUI_TextField:invalid_field(invalidColor, invalidContent)
      runHaxeCode((F[[
           var skinSearchInput             = getVar('skinSearchInput');
@@ -151,24 +171,6 @@ function FlavorUI_TextField:reset_field()
           skinSearchInput_placeholder.text = '${self.placeholder_content}';
           return;
      ]]):gsub('skinSearchInput', self.tag))
-end
-
-function FlavorUI_TextField:set_field(value)
-     runHaxeCode((F[[
-          var skinSearchInput             = getVar('skinSearchInput');
-          var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
-
-          skinSearchInput.set_text('${value}');
-          skinSearchInput_placeholder.text  = '';
-     ]]):gsub('skinSearchInput', self.tag))
-end
-
-function FlavorUI_TextField:get_field()
-     runHaxeCode((F[[
-          var skinSearchInput = getVar('skinSearchInput');
-          setVar('skinSearchInput_textContent', skinSearchInput.textObj.textField.text);
-     ]]):gsub('skinSearchInput', self.tag))
-     return getVar(('skinSearchInput_textContent'):gsub('skinSearchInput', self.tag))
 end
 
 function FlavorUI_TextField:set_filterMode(filterType)
