@@ -6,44 +6,16 @@ local hoverObject   = funkinlua.hoverObject
 local clickObject   = funkinlua.clickObject
 local pressedObject = funkinlua.pressedObject
 
----
+--- Main text field component class for FlavorUI.
 ---@class FlavorUI_TextField
-
----@field font string
----@field size number
----@field antialiasing boolean
----@field color string
----@field selection_color string
----@field max_length number
-
----@field field_offset_x number
----@field field_offset_y number
-
----@field caret_x number
----@field caret_y number
----@field caret_width number
----@field caret_height number
----@field caret_color string
-
----@field placeholder_content string
----@field placeholder_color string
----@field placeholder_offset_x number
----@field placeholder_offset_y number
-
----@field onCreate string
----@field onCreatePost string
----@field onUpdate string
----@field onChange string
----@field onField string
----@field onFieldMax string
 local FlavorUI_TextField = {}
 
----
----@param tag string
----@param text string
----@param x number
----@param y number
----@param width number
+--- Initializes the main attributes for the text field.
+---@param tag string The corresponding tag name given for this text field.
+---@param text string The main text content to be display to the text field, usually left empty.
+---@param x number The given x-position to initially set to.
+---@param y number The given y-position to initially set to.
+---@param width number The width of the text field to only show.
 ---@return FlavorUI_TextField
 function FlavorUI_TextField:new(tag, text, x, y, width)
      local self = setmetatable({}, {__index = self})
@@ -55,10 +27,10 @@ function FlavorUI_TextField:new(tag, text, x, y, width)
      
      self.font            = ''
      self.size            = 16
-     self.antialiasing    = true
      self.color           = '0xffffffff'
+     self.antialiasing    = true
      self.selection_color = '0xff1565de'
-     self.max_length      = 50
+     self.maxLength       = 50
 
      self.field_offset_x = 0
      self.field_offset_y = 0
@@ -80,11 +52,11 @@ function FlavorUI_TextField:new(tag, text, x, y, width)
      self.onChange     = ''
      self.onField      = ''
      self.onFieldMax   = ''
-
      return self
 end
 
----
+--- Creates the text field, including its elements field, placeholder, and caret.
+--- Must be called after initiating the text field's attributes.
 ---@return nil
 function FlavorUI_TextField:create()
      runHaxeCode((F[[
@@ -127,7 +99,7 @@ function FlavorUI_TextField:create()
           skinSearchInput.caret.alpha     = 0;
           skinSearchInput.selection.color = ${self.selection_color};
           skinSearchInput.cameras   = [game.camHUD];
-          skinSearchInput.maxLength = ${self.max_length};
+          skinSearchInput.maxLength = ${self.maxLength};
           skinSearchInput.deleteSelection();
           skinSearchInput.onChange  = function(preText:String, curText:String) {
                if (curText.length > 0) {
@@ -137,7 +109,7 @@ function FlavorUI_TextField:create()
                     skinSearchInput_placeholder.color = ${self.placeholder_color};
                }
      
-               if (curText.length >= ${self.max_length}) {
+               if (curText.length >= ${self.maxLength}) {
                     skinSearchInput.textObj.color = FlxColor.RED;
                     ${self.onFieldMax:gsub('this', self.tag)}
                } else {
@@ -160,7 +132,7 @@ function FlavorUI_TextField:create()
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
+--- Updates the text field.
 ---@return nil
 function FlavorUI_TextField:update()
      runHaxeCode((F[[
@@ -179,8 +151,8 @@ function FlavorUI_TextField:update()
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
----@param value number
+--- Sets the current field content of the text field.
+---@param value string The content to set the text field to.
 ---@return nil
 function FlavorUI_TextField:set_field(value)
      runHaxeCode((F[[
@@ -192,7 +164,7 @@ function FlavorUI_TextField:set_field(value)
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
+--- Gets the current field content of the text field.
 ---@return string
 function FlavorUI_TextField:get_field()
      runHaxeCode((F[[
@@ -202,9 +174,9 @@ function FlavorUI_TextField:get_field()
      return getVar(('skinSearchInput_textContent'):gsub('skinSearchInput', self.tag))
 end
 
----
----@param invalidColor string
----@param invalidContent string
+--- Invalidates the text field.
+---@param invalidColor string The text color of the invalid field.
+---@param invalidContent string The text content of the invalid field.
 ---@return nil
 function FlavorUI_TextField:invalid_field(invalidColor, invalidContent)
      runHaxeCode((F[[
@@ -221,7 +193,7 @@ function FlavorUI_TextField:invalid_field(invalidColor, invalidContent)
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
+--- Resets the current field content of the text field, no shit sherlock.
 ---@return nil
 function FlavorUI_TextField:reset_field()
      runHaxeCode((F[[
@@ -236,8 +208,8 @@ function FlavorUI_TextField:reset_field()
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
----@param filterType string
+--- Sets the filter type of the text field, enabling allowed specific text characters.
+---@param filterType string The specified filter type to inherit.
 ---@return nil
 function FlavorUI_TextField:set_filterMode(filterType)
      runHaxeCode((F[[
@@ -246,9 +218,9 @@ function FlavorUI_TextField:set_filterMode(filterType)
      ]]):gsub('skinSearchInput', self.tag))
 end
 
----
----@param pattern string
----@param flag string
+--- Sets a custom filter to the text field.
+---@param pattern string The specific RegEx pattern to filter out.
+---@param flag string The specific RegEx modifier flag to use when filtering.
 ---@return nil
 function FlavorUI_TextField:set_customFilterPattern(pattern, flag)
      runHaxeCode((F[[
