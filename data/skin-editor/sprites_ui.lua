@@ -9,7 +9,7 @@ mouse:create()
 
 -- Offset --
 
-local OFFSET_SECTION_Y = (163.44 - 5.72)
+local OFFSET_SECTION_Y = (130.5 - 5.72)
 local OFFSET_SECTION_FIELD_Y = OFFSET_SECTION_Y + 7
 
 local OFFSET_FIELD1_X = 40+8
@@ -41,7 +41,7 @@ editorInputFieldOffsetY:set_customFilterPattern("[^0-9.]*", "g")
 
 -- Size --
 
-local SIZE_SECTION_Y = (263.44 - 5.72)
+local SIZE_SECTION_Y = (230.5 - 5.72)
 local SIZE_SECTION_FIELD_Y = SIZE_SECTION_Y + 7
 
 local SIZE_FIELD1_X = 40+8
@@ -73,7 +73,7 @@ editorInputFieldSizeY:set_customFilterPattern("[^0-9.]*", "g")
 
 -- Frame --
 
-local FRAMES_SECTION_Y = (363.44 - 5.72)
+local FRAMES_SECTION_Y = (330.5 - 5.72)
 local FRAMES_SECTION_FIELD_Y = FRAMES_SECTION_Y + 7
 
 local FRAMES_FIELD_X = 40+8
@@ -92,7 +92,7 @@ editorInputFieldFrames:set_customFilterPattern("[^0-9]*", "g")
 
 -- File --
 
-local FILES_SECTION_Y = (((463.44+563.44)/2) - 5.72)
+local FILES_SECTION_Y = (((430.5+530.5)/2) - 5.72)
 local FILES_SECTION_FIELD_Y = FILES_SECTION_Y + 9
 
 local FILES_FIELD_X = 10+8
@@ -117,6 +117,25 @@ editorInputFieldFiles.onChange = [[
 ]]
 editorInputFieldFiles:create()
 
+-- Save --
+
+local SAVEFILE_SECTION_Y = (((530.5+630.5)/2) - 5.72)
+local SAVEFILE_SECTION_FIELD_Y = SAVEFILE_SECTION_Y + 9
+
+local SAVEFILE_FIELD_X = 10+8
+
+local editorInputFieldSaveFile = FlavorUI_TextField:new('editorInputFieldSaveFile', '', SAVEFILE_FIELD_X, SAVEFILE_SECTION_FIELD_Y, 360)
+editorInputFieldSaveFile.font = 'NoteSkin Selector Remastered/fonts/sonic.ttf'
+editorInputFieldSaveFile.size = 20
+editorInputFieldSaveFile.maxLength = 11+50
+editorInputFieldSaveFile.field_offset_y = -3
+editorInputFieldSaveFile.caret_width = 2.5
+editorInputFieldSaveFile.caret_height = 20
+editorInputFieldSaveFile.placeholder_content = '/folder...'
+editorInputFieldSaveFile.placeholder_offset_y = -3
+editorInputFieldSaveFile.onFieldMax = [[ FlxG.sound.play(Paths.sound('cancel'), 0.5); ]]
+editorInputFieldSaveFile:create()
+
 function onUpdate(elapsed)
      editorInputFieldOffsetX:update()
      editorInputFieldOffsetY:update()
@@ -124,6 +143,7 @@ function onUpdate(elapsed)
      editorInputFieldSizeY:update()
      editorInputFieldFrames:update()
      editorInputFieldFiles:update()
+     editorInputFieldSaveFile:update()
 
      mouse:update()
 end

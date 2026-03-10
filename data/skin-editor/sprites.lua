@@ -22,7 +22,7 @@ addLuaSprite('testSidebar')
 
 -- Offset --
 
-local OFFSET_SECTION_Y = (163.44 - 5.72)
+local OFFSET_SECTION_Y = (130.5 - 5.72)
 local OFFSET_SECTION_TITLE_Y = OFFSET_SECTION_Y - 37
 local OFFSET_SECTION_LABEL_Y = OFFSET_SECTION_Y + 8
 
@@ -69,7 +69,7 @@ addLuaSprite('editorInputSpriteOffsetY')
 
 -- Size --
 
-local SIZE_SECTION_Y = (263.44 - 5.72)
+local SIZE_SECTION_Y = (230.5 - 5.72)
 local SIZE_SECTION_TITLE_Y = SIZE_SECTION_Y - 37
 local SIZE_SECTION_LABEL_Y = SIZE_SECTION_Y + 8
 
@@ -116,7 +116,7 @@ addLuaSprite('editorInputSpriteSizeY')
 
 -- Frame --
 
-local FRAMES_SECTION_Y = (363.44 - 5.72)
+local FRAMES_SECTION_Y = (330.5 - 5.72)
 local FRAMES_SECTION_TITLE_Y = FRAMES_SECTION_Y - 37
 local FRAMES_SECTION_LABEL_Y = FRAMES_SECTION_Y + 10
 
@@ -147,7 +147,7 @@ addLuaSprite('editorInputSpriteFrames')
 
 -- File --
 
-local FILE_SECTION_Y = (((463.44+563.44)/2) - 5.72)
+local FILE_SECTION_Y = (((430.5+530.5)/2) - 5.72)
 local FILE_SECTION_TITLE_Y = FILE_SECTION_Y - 37
 
 local FILE_TITLE_X  = 10-5
@@ -165,3 +165,24 @@ scaleObject('editorInputSpriteFile', 0.65, 0.85)
 setObjectCamera('editorInputSpriteFile', 'camHUD')
 setProperty('editorInputSpriteFile.antialiasing', false)
 addLuaSprite('editorInputSpriteFile')
+
+-- Save --
+
+local SAVEFILE_SECTION_Y = (((530.5+630.5)/2) - 5.72)
+local SAVEFILE_SECTION_TITLE_Y = SAVEFILE_SECTION_Y - 37
+
+local SAVEFILE_TITLE_X  = 10-5
+local SAVEFILE_SPRITE_X = 10
+
+makeLuaText('editorTitleSaveFile', ('SKIN SAVEFILE PATH:'):pad(1, ' '), 0, SAVEFILE_TITLE_X, SAVEFILE_SECTION_TITLE_Y)
+setTextFont('editorTitleSaveFile', 'tomo.otf')
+setTextSize('editorTitleSaveFile', 20)
+setTextBorder('editorTitleSaveFile', 3, '000000')
+setObjectCamera('editorTitleSaveFile', 'camHUD')
+addLuaText('editorTitleSaveFile')
+
+makeLuaSprite('editorInputSpriteSaveFile', 'ui/buttons/value_input_string', SAVEFILE_SPRITE_X, SAVEFILE_SECTION_Y)
+scaleObject('editorInputSpriteSaveFile', 0.65, 0.85)
+setObjectCamera('editorInputSpriteSaveFile', 'camHUD')
+setProperty('editorInputSpriteSaveFile.antialiasing', false)
+addLuaSprite('editorInputSpriteSaveFile')
