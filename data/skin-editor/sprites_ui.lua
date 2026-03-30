@@ -123,6 +123,7 @@ local mouse = FlavorUI_Mouse:new('ui/cursor', 0.4, {-4,0})
 mouse:add_element('hand', 'editorInputSpriteOffsetX', 'editorInputSpriteOffsetY')
 mouse:add_element('hand', 'editorInputSpriteSizeX', 'editorInputSpriteSizeY')
 mouse:add_element('hand', 'editorInputSpriteFrames', 'editorInputSpriteFile', 'editorInputSpriteSaveFile')
+mouse:callback_element('disable', 'onClick', function() playSound('cancel') end)
 mouse:create()
 
 function onUpdate(elapsed)
