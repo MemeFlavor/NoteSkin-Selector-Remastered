@@ -8,30 +8,43 @@ local hoverObject   = funkinlua.hoverObject
 local clickObject   = funkinlua.clickObject
 local pressedObject = funkinlua.pressedObject
 
-local MOUSE_IDLE_OFFSET     = {27.9, 27.6}
-local MOUSE_HAND_OFFSET     = {40, 27.6}
+local MOUSE_VARIANT_ERROR = {
+     __index    = function() error('Attempted to call an non-existing key') end,
+     __newindex = function() error('Attempted to create an non-existing key, pls stop') end
+}
+
+local MOUSE_IDLE_OFFSET    = {27.9, 27.6}
+local MOUSE_HAND_OFFSET    = {40, 27.6}
 local MOUSE_DISABLE_OFFSET = {38, 22.6}
 
+--- Main mouse component class for FlavorUI.
+---@class FlavorUI_Mouse
 local FlavorUI_Mouse = {}
 
-function FlavorUI_Mouse:new(sprite, size, offsets)
+--- Initializes the main attributes for the mouse.
+---@param size number The size of the mouse.
+---@param offsets number[] The offset positions of the mouse.
+---@return FlavourUI_Mouse
+function FlavorUI_Mouse:new(size, offsets)
      local self = setmetatable({}, {__index = self})
-     self.sprite    = sprite
      self.size      = size
      self.offsets   = offsets
-     self.elements  = { 
+
+     self.elements  = setmetatable({ 
           hand      = table.new(0xff, 0),
           disable   = table.new(0xff, 0)
-     }
-     self.callbacks = { 
+     }, MOUSE_VARIANT_ERROR)
+     self.callbacks = setmetatable({ 
           hand      = { onHover = function() end, onClick = function() end, onPress = function() end },
           disable   = { onHover = function() end, onClick = function() end, onPress = function() end }
-     }
+     }, MOUSE_VARIANT_ERROR)
      return self
 end
 
+--- Creates the mouse object into the game.
+---@return nil
 function FlavorUI_Mouse:create()
-     makeAnimatedLuaSprite('FlavorMouseUI', self.sprite, getMouseX('camOther'), getMouseY('camOther'))
+     makeAnimatedLuaSprite('FlavorMouseUI', 'ui/cursor', getMouseX('camOther'), getMouseY('camOther'))
      scaleObject('FlavorMouseUI', self.size, self.size)
      addAnimationByPrefix('FlavorMouseUI', 'idle', 'idle0', 24, false)
      addAnimationByPrefix('FlavorMouseUI', 'idleClick', 'idleClick', 24, false)
@@ -53,6 +66,8 @@ function FlavorUI_Mouse:create()
      setPropertyFromClass('flixel.FlxG', 'mouse.visible', false)
 end
 
+--- Updates the mouse.
+---@return nil
 function FlavorUI_Mouse:update()
      if mouseClicked('left')  then playSound('clicks/clickDown', 0.5) end
      if mouseReleased('left') then playSound('clicks/clickUp', 0.5)   end
@@ -86,6 +101,10 @@ function FlavorUI_Mouse:update()
      end
 end
 
+--- Adds an object element for the mouse to be interactible.
+---@param variant string The specified mouse variant for the object element to interact to.
+---@param elements... any The said element(s) to be interactible.
+---@return nil
 function FlavorUI_Mouse:add_element(variant, ...)
      local added = {...}
      for addIndex = 1, #added do
@@ -93,6 +112,10 @@ function FlavorUI_Mouse:add_element(variant, ...)
      end
 end
 
+--- Removes an object element to detach its interactibility.
+---@param variant string The specified mouse variant that the object is attach to.
+---@param elements... any The said element(s) to be remove.
+---@return nil
 function FlavorUI_Mouse:remove_element(variant, ...)
      local remove = {...}
      for removeIndex = 1, #remove do
@@ -100,6 +123,11 @@ function FlavorUI_Mouse:remove_element(variant, ...)
      end
 end
 
+--- Adds a custom callback functionality to the mouse, for extra customizability!!!
+---@param variant string The specified mouse variant for the callback to interact to.
+---@param callback string The specified callback to utilize with.
+---@param code string The said code for the corresponding callback.
+---@return nil
 function FlavorUI_Mouse:callback_element(variants, callback, code)
      self.callbacks[variants][callback] = code
 end

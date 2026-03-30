@@ -13,7 +13,7 @@ local FlavorUI_TextField = {}
 ---@param text string The main text content to be display to the text field, usually left empty.
 ---@param x number The given x-position to initially set to.
 ---@param y number The given y-position to initially set to.
----@param width number The width of the text field to only show.
+---@param fieldWidth number The width of the text field to only show.
 ---@return FlavorUI_TextField
 function FlavorUI_TextField:new(tag, text, x, y, fieldWidth)
      local self = setmetatable({}, {__index = self})
