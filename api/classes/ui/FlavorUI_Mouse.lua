@@ -1,6 +1,7 @@
 luaDebugMode = true
 
-local F = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local table     = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.table'
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
 
 local hoverObject   = funkinlua.hoverObject
@@ -15,9 +16,10 @@ local FlavorUI_Mouse = {}
 
 function FlavorUI_Mouse:new(sprite, size, offsets)
      local self = setmetatable({}, {__index = self})
-     self.sprite  = sprite
-     self.size    = size
-     self.offsets = offsets
+     self.sprite   = sprite
+     self.size     = size
+     self.offsets  = offsets
+     self.elements = { hand = table.new(0xff, 0), disabled = table.new(0xff, 0) }
 
      return self
 end
@@ -55,6 +57,35 @@ function FlavorUI_Mouse:update()
           playAnim('FlavorMouseUI', 'idleClick')
      else
           playAnim('FlavorMouseUI', 'idle')
+     end
+
+     for variants, variant_elements in pairs(self.elements) do
+          for _, elements in ipairs(variant_elements) do
+               local hoverMouse = hoverObject(elements, 'camHUD')
+               local clickMouse = clickObject(elements, 'camHUD')
+               local pressMouse = pressedObject(elements, 'camHUD')
+
+               if hoverMouse then
+                    playAnim('FlavorMouseUI', variants)
+               end
+               if clickMouse or pressMouse then
+                    playAnim('FlavorMouseUI', F"${variants}Click")
+               end
+          end
+     end
+end
+
+function FlavorUI_Mouse:add_element(variant, ...)
+     local added = {...}
+     for addIndex = 1, #added do
+          table.insert(self.elements[variant], added[addIndex])
+     end
+end
+
+function FlavorUI_Mouse:remove_element(variant, ...)
+     local remove = {...}
+     for removeIndex = 1, #remove do
+          table.remove(self.elements[variant], table.find(self.elements[variant], remove[removeIndex]))
      end
 end
 

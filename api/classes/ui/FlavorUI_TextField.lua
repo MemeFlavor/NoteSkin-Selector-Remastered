@@ -1,10 +1,8 @@
-local F = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+luaDebugMode = true
+
+local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
 local string    = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.string'
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
-
-local hoverObject   = funkinlua.hoverObject
-local clickObject   = funkinlua.clickObject
-local pressedObject = funkinlua.pressedObject
 
 --- Main text field component class for FlavorUI.
 ---@class FlavorUI_TextField
@@ -17,48 +15,78 @@ local FlavorUI_TextField = {}
 ---@param y number The given y-position to initially set to.
 ---@param width number The width of the text field to only show.
 ---@return FlavorUI_TextField
-function FlavorUI_TextField:new(tag, text, x, y, width)
+function FlavorUI_TextField:new(tag, text, x, y, fieldWidth)
      local self = setmetatable({}, {__index = self})
-     self.tag   = tag
-     self.text  = text
-     self.x     = x
-     self.y     = y
-     self.width = width
-     
-     self.font            = ''
-     self.size            = 16
-     self.color           = '0xffffffff'
-     self.antialiasing    = true
-     self.selection_color = '0xff1565de'
-     self.maxLength       = 50
+     self.tag            = tag
+     self.x              = x or 0
+     self.y              = y or 0
+     self.offset_x       = 0
+     self.offset_y       = 0
+     self.text           = text or ''
+     self.font           = ''
+     self.size           = 16
+     self.color          = '0xffffffff'
+     self.fieldWidth     = fieldWidth or 0
+     self.fieldHeight    = 0
+     self.border_color   = '0xff000000'
+     self.border_quality = 1
+     self.border_size    = 0
+     self.antialiasing   = true
+     self.cameras        = 'game.camHUD'
 
-     self.field_offset_x = 0
-     self.field_offset_y = 0
+     -- Miscellaneous --
 
-     self.caret_x       = 0
-     self.caret_y       = 0
-     self.caret_width   = 3
-     self.caret_height  = 25
-     self.caret_color   = '0xffffffff'
+     self.maxLength         = 0
+     self.passwordMask      = false
+     self.selection_scale_x = -1
+     self.selection_scale_y = 25
+     self.selection_color   = '0xff007bff'
 
-     self.placeholder_content  = ''
-     self.placeholder_color    = '0xFFB3B3B5'     
-     self.placeholder_offset_x = 0
-     self.placeholder_offset_y = 0
+     -- Fields --
 
-     self.onCreate     = ''
-     self.onCreatePost = ''
-     self.onUpdate     = ''
-     self.onChange     = ''
-     self.onField      = ''
-     self.onFieldMax   = ''
+     self.field_selectable = true
+     self.field_wordWrap   = true
+     self.field_multiline  = false
+
+     -- Caret --
+
+     self.caret_x         = 0
+     self.caret_y         = 0
+     self.caret_offset_x  = 0
+     self.caret_offset_y  = 0
+     self.caret_width     = 1
+     self.caret_height    = 1
+     self.caret_color     = '0xffffffff'
+
+     -- Placeholder --
+
+     self.placeholder_x              = self.x
+     self.placeholder_y              = self.y
+     self.placeholder_offset_x       = self.offset_x-1
+     self.placeholder_offset_y       = self.offset_y-1
+     self.placeholder_text           = ''
+     self.placeholder_color          = '0xff808080'
+     self.placeholder_fieldWidth     = 0
+     self.placeholder_fieldHeight    = 0
+     self.placeholder_border_color   = '0xff000000'
+     self.placeholder_border_quality = 1
+     self.placeholder_border_size    = -1
+
+     -- Callbacks --
+
+     self.onCreate     = [[]]
+     self.onCreatePost = [[]]
+     self.onUpdate     = [[]]
+     self.onChange     = [[]]
+     self.onField      = [[]]
+     self.onFieldMax   = [[]]
      return self
 end
 
---- Creates the text field, including its elements field, placeholder, and caret.
+--- Adds the text field object into the game, including its elements field, placeholder, and caret.
 --- Must be called after initiating the text field's attributes.
 ---@return nil
-function FlavorUI_TextField:create()
+function FlavorUI_TextField:add()
      runHaxeCode((F[[
           import flixel.FlxG;
           import flixel.util.FlxTimer;
@@ -72,83 +100,141 @@ function FlavorUI_TextField:create()
 
           ${self.onCreate:gsub('this', self.tag)}
 
-          var skinSearchInput_caret:FlxSprite     = new FlxSprite(0, 0);
-          var skinSearchInput_placeholder:FlxText = new FlxText(${self.x}+1, ${self.y}+1, 0, "${self.text}");
-          var skinSearchInput:PsychUIInputText    = new PsychUIInputText(${self.x}, ${self.y}, ${self.width}, "${self.text}", ${self.size});
-     
-          skinSearchInput_caret.makeGraphic(${self.caret_width}, ${self.caret_height}, ${self.caret_color});
-          skinSearchInput_caret.y            = skinSearchInput.caret.y;
-          skinSearchInput_caret.cameras      = [game.camHUD];
-          skinSearchInput_caret.antialiasing = false;
+          var flavorTextField_caret:FlxSprite     = new FlxSprite(${self.caret_x}, ${self.caret_y});
+          var flavorTextField_placeholder:FlxText = new FlxText(${self.placeholder_x}, ${self.placeholder_y}, ${self.placeholder_fieldWidth}, "${self.placeholder_text}");
+          var flavorTextField:PsychUIInputText    = new PsychUIInputText(${self.x}, ${self.y}, ${self.fieldWidth}, "${self.text}", ${self.size});
 
-          skinSearchInput_placeholder.text  = '${self.placeholder_content}';
-          skinSearchInput_placeholder.font  = Paths.mods('${self.font}');
-          skinSearchInput_placeholder.size  = ${self.size};
-          skinSearchInput_placeholder.color = ${self.placeholder_color};
-          skinSearchInput_placeholder.borderSize   = -1;
-          skinSearchInput_placeholder.cameras      = [game.camHUD];
-          skinSearchInput_placeholder.antialiasing = ${self.antialiasing};
-          skinSearchInput_placeholder.offset.set(${self.placeholder_offset_x}, ${self.placeholder_offset_y});
+          flavorTextField_caret.makeGraphic(${self.caret_width}, ${self.caret_height}, ${self.caret_color});
+          flavorTextField_caret.cameras      = [${self.cameras}];
+          flavorTextField_caret.antialiasing = ${self.antialiasing};
+          flavorTextField_caret.offset.set(${self.caret_offset_x}, ${self.caret_offset_y});
+          
+          flavorTextField_placeholder.text          = '${self.placeholder_text}';
+          flavorTextField_placeholder.font          = Paths.mods('${self.font}');
+          flavorTextField_placeholder.size          = ${self.size};
+          flavorTextField_placeholder.color         = ${self.placeholder_color};
+          flavorTextField_placeholder.borderColor   = ${self.placeholder_border_color};
+          flavorTextField_placeholder.borderQuality = ${self.placeholder_border_quality};
+          flavorTextField_placeholder.borderSize    = ${self.placeholder_border_size};
+          flavorTextField_placeholder.cameras       = [${self.cameras}];
+          flavorTextField_placeholder.antialiasing  = ${self.antialiasing};
+          flavorTextField_placeholder.offset.set(${self.placeholder_offset_x}, ${self.placeholder_offset_y});
 
-          skinSearchInput.textObj.font  = Paths.mods('${self.font}');
-          skinSearchInput.textObj.color = ${self.color};
-          skinSearchInput.textObj.antialiasing = ${self.antialiasing};
-          skinSearchInput.textObj.offset.set(${self.field_offset_x}, ${self.field_offset_y});
-          skinSearchInput.bg.visible           = false;
-          skinSearchInput.behindText.visible   = false;
-          skinSearchInput.caret.alpha     = 0;
-          skinSearchInput.selection.color = ${self.selection_color};
-          skinSearchInput.cameras   = [game.camHUD];
-          skinSearchInput.maxLength = ${self.maxLength};
-          skinSearchInput.deleteSelection();
-          skinSearchInput.onChange  = function(preText:String, curText:String) {
+          flavorTextField.textObj.font          = Paths.mods('${self.font}');
+          flavorTextField.textObj.color         = ${self.color};
+          flavorTextField.textObj.fieldHeight   = ${self.fieldHeight};
+          flavorTextField.textObj.borderColor   = ${self.border_color};
+          flavorTextField.textObj.borderQuality = ${self.border_quality};
+          flavorTextField.textObj.borderSize    = ${self.border_size};
+          flavorTextField.textObj.antialiasing  = ${self.antialiasing};
+          flavorTextField.textObj.offset.set(${self.offset_x}, ${self.offset_y});
+          flavorTextField.bg.visible         = false;
+          flavorTextField.behindText.visible = false;
+          flavorTextField.caret.alpha        = 0;
+          flavorTextField.maxLength          = ${self.maxLength};
+          flavorTextField.passwordMask       = ${self.passwordMask};
+          flavorTextField.selection.color    = ${self.selection_color};
+          flavorTextField.cameras            = [${self.cameras}];
+          flavorTextField.deleteSelection();
+          flavorTextField.onChange = function(preText:String, curText:String) {
                if (curText.length > 0) {
-                    skinSearchInput_placeholder.text  = '';
+                    flavorTextField_placeholder.text  = '';
                } else {
-                    skinSearchInput_placeholder.text  = '${self.placeholder_content}';
-                    skinSearchInput_placeholder.color = ${self.placeholder_color};
+                    flavorTextField_placeholder.text  = '${self.placeholder_text}';
+                    flavorTextField_placeholder.color = ${self.placeholder_color};
                }
      
                if (curText.length >= ${self.maxLength}) {
-                    skinSearchInput.textObj.color = FlxColor.RED;
+                    flavorTextField.textObj.color = FlxColor.RED;
                     ${self.onFieldMax:gsub('this', self.tag)}
                } else {
-                    skinSearchInput.textObj.color = FlxColor.WHITE;
+                    flavorTextField.textObj.color = FlxColor.WHITE;
                     ${self.onField:gsub('this', self.tag)}
                }
-               setVar('skinSearchInput_preText', preText);
-               setVar('skinSearchInput_curText', curText);
+               setVar('flavorTextField_preText', preText);
+               setVar('flavorTextField_curText', curText);
                ${self.onChange:gsub('this', self.tag)}
           };
 
-          add(skinSearchInput_placeholder);
-          add(skinSearchInput_caret);
-          add(skinSearchInput);
-          
-          setVar('skinSearchInput', skinSearchInput);
-          setVar('skinSearchInput_caret', skinSearchInput_caret);
-          setVar('skinSearchInput_placeholder', skinSearchInput_placeholder);
+          add(flavorTextField_placeholder);
+          add(flavorTextField);
+          add(flavorTextField_caret);
+
+          /* Miscellaneous */
+
+          setVar('flavorTextField_placeholder', flavorTextField_placeholder);
+          setVar('flavorTextField', flavorTextField);
+          setVar('flavorTextField_caret', flavorTextField_caret);
+
           ${self.onCreatePost:gsub('this', self.tag)}
-     ]]):gsub('skinSearchInput', self.tag))
+     ]]):gsub('flavorTextField', self.tag))
+end
+
+--- Overwrites the text field attributes, allowing it to update.
+--- Must be called after overwriting the text field's attributes.
+---@return nil
+function FlavorUI_TextField:overwrite()
+     runHaxeCode((F[[ 
+          var flavorTextField             = getVar('flavorTextField');
+          var flavorTextField_caret       = getVar('flavorTextField_caret');
+          var flavorTextField_placeholder = getVar('flavorTextField_placeholder');
+
+          flavorTextField.x                 = ${self.x};
+          flavorTextField.y                 = ${self.y};
+          flavorTextField.maxLength         = ${self.maxLength};
+          flavorTextField.passwordMask      = ${self.passwordMask};
+          flavorTextField.selection.scale.x = ${self.selection_scale_x};
+          flavorTextField.selection.scale.y = ${self.selection_scale_y};
+          flavorTextField.selection.color   = ${self.selection_color};
+          flavorTextField.cameras           = [${self.cameras}];
+
+          flavorTextField.textObj.font          = Paths.mods('${self.font}');
+          flavorTextField.textObj.color         = ${self.color};
+          flavorTextField.textObj.fieldHeight   = ${self.fieldHeight};
+          flavorTextField.textObj.borderColor   = ${self.border_color};
+          flavorTextField.textObj.borderQuality = ${self.border_quality};
+          flavorTextField.textObj.borderSize    = ${self.border_size};
+          flavorTextField.textObj.offset.set(${self.offset_x}, ${self.offset_y});
+          flavorTextField.textObj.antialiasing  = ${self.antialiasing};
+
+          flavorTextField_caret.width        = ${self.caret_width};
+          flavorTextField_caret.height       = ${self.caret_height};
+          flavorTextField_caret.color        = ${self.caret_color};
+          flavorTextField_caret.cameras      = [${self.cameras}];
+          flavorTextField_caret.antialiasing = ${self.antialiasing};
+          flavorTextField_caret.offset.set(${self.caret_offset_x}, ${self.caret_offset_y});
+
+          flavorTextField_placeholder.text          = '${self.placeholder_text}';
+          flavorTextField_placeholder.font          = Paths.mods('${self.font}');
+          flavorTextField_placeholder.size          = ${self.size};
+          flavorTextField_placeholder.color         = ${self.placeholder_color};
+          flavorTextField_placeholder.borderColor   = ${self.placeholder_border_color};
+          flavorTextField_placeholder.borderQuality = ${self.placeholder_border_quality};
+          flavorTextField_placeholder.borderSize    = ${self.placeholder_border_size};
+          flavorTextField_placeholder.cameras       = [${self.cameras}];
+          flavorTextField_placeholder.antialiasing  = ${self.antialiasing};
+          flavorTextField_placeholder.offset.set(${self.placeholder_offset_x}, ${self.placeholder_offset_y});
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Updates the text field.
 ---@return nil
 function FlavorUI_TextField:update()
      runHaxeCode((F[[
-          var skinSearchInput       = getVar('skinSearchInput');
-          var skinSearchInput_caret = getVar('skinSearchInput_caret');
+          var flavorTextField       = getVar('flavorTextField');
+          var flavorTextField_caret = getVar('flavorTextField_caret');
 
-          skinSearchInput.selection.scale.y = 25;
-
-          skinSearchInput_caret.visible = PsychUIInputText.focusOn == null ? false : skinSearchInput.caret.visible;
-          skinSearchInput_caret.x       = skinSearchInput.caret.x;
-          skinSearchInput_caret.y       = skinSearchInput.caret.y + ${self.caret_y};
+          flavorTextField.selection.scale.x = ${self.selection_scale_x} != -1 ? ${self.selection_scale_x} : flavorTextField.selection.scale.x;
+          flavorTextField.selection.scale.y = ${self.selection_scale_y} != -1 ? ${self.selection_scale_y} : flavorTextField.selection.scale.y;
+          
+          flavorTextField_caret.visible = PsychUIInputText.focusOn == null ? false : flavorTextField.caret.visible;
+          flavorTextField_caret.x       = flavorTextField.caret.x;
+          flavorTextField_caret.y       = flavorTextField.caret.y;
 
           ClientPrefs.toggleVolumeKeys(PsychUIInputText.focusOn == null);
           game.allowDebugKeys = PsychUIInputText.focusOn == null;
           ${self.onUpdate:gsub('this', self.tag)}
-     ]]):gsub('skinSearchInput', self.tag))
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Sets the current field content of the text field.
@@ -156,22 +242,22 @@ end
 ---@return nil
 function FlavorUI_TextField:set_field(value)
      runHaxeCode((F[[
-          var skinSearchInput             = getVar('skinSearchInput');
-          var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
+          var flavorTextField             = getVar('flavorTextField');
+          var flavorTextField_placeholder = getVar('flavorTextField_placeholder');
 
-          skinSearchInput.set_text('${value}');
-          skinSearchInput_placeholder.text  = '';
-     ]]):gsub('skinSearchInput', self.tag))
+          flavorTextField.set_text('${value}');
+          flavorTextField_placeholder.text = '';
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Gets the current field content of the text field.
 ---@return string
 function FlavorUI_TextField:get_field()
      runHaxeCode((F[[
-          var skinSearchInput = getVar('skinSearchInput');
-          setVar('skinSearchInput_textContent', skinSearchInput.textObj.textField.text);
-     ]]):gsub('skinSearchInput', self.tag))
-     return getVar(('skinSearchInput_textContent'):gsub('skinSearchInput', self.tag))
+          var flavorTextField = getVar('flavorTextField');
+          setVar('flavorTextField_textContent', flavorTextField.textObj.textField.text);
+     ]]):gsub('flavorTextField', self.tag))
+     return getVar(('flavorTextField_textContent'):gsub('flavorTextField', self.tag))
 end
 
 --- Invalidates the text field.
@@ -180,32 +266,32 @@ end
 ---@return nil
 function FlavorUI_TextField:invalid_field(invalidColor, invalidContent)
      runHaxeCode((F[[
-          var skinSearchInput             = getVar('skinSearchInput');
-          var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
+          var flavorTextField             = getVar('flavorTextField');
+          var flavorTextField_placeholder = getVar('flavorTextField_placeholder');
 
-          skinSearchInput.caretIndex = 1;
-          skinSearchInput.set_text('');
+          flavorTextField.caretIndex = 1;
+          flavorTextField.set_text('');
      
-          skinSearchInput_placeholder.text  = '${invalidContent}'; // Invalid Skin!
-          skinSearchInput_placeholder.color = ${invalidColor};     // 0xFFB50000
+          flavorTextField_placeholder.text  = '${invalidContent}'; // Invalid Skin!
+          flavorTextField_placeholder.color = ${invalidColor};     // 0xFFB50000
           FlxG.sound.play(Paths.sound('cancel'), 0.5);
           return;
-     ]]):gsub('skinSearchInput', self.tag))
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Resets the current field content of the text field, no shit sherlock.
 ---@return nil
 function FlavorUI_TextField:reset_field()
      runHaxeCode((F[[
-          var skinSearchInput             = getVar('skinSearchInput');
-          var skinSearchInput_placeholder = getVar('skinSearchInput_placeholder');
+          var flavorTextField             = getVar('flavorTextField');
+          var flavorTextField_placeholder = getVar('flavorTextField_placeholder');
 
-          skinSearchInput.caretIndex = 1;
-          skinSearchInput.set_text('');
+          flavorTextField.caretIndex = 1;
+          flavorTextField.set_text('');
 
-          skinSearchInput_placeholder.text = '${self.placeholder_content}';
+          flavorTextField_placeholder.text = '${self.placeholder_content}';
           return;
-     ]]):gsub('skinSearchInput', self.tag))
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Sets the filter type of the text field, enabling allowed specific text characters.
@@ -213,9 +299,9 @@ end
 ---@return nil
 function FlavorUI_TextField:set_filterMode(filterType)
      runHaxeCode((F[[
-          var skinSearchInput = getVar('skinSearchInput');
-          skinSearchInput.set_filterMode(${filterType});
-     ]]):gsub('skinSearchInput', self.tag))
+          var flavorTextField = getVar('flavorTextField');
+          flavorTextField.set_filterMode(${filterType});
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 --- Sets a custom filter to the text field.
@@ -224,9 +310,9 @@ end
 ---@return nil
 function FlavorUI_TextField:set_customFilterPattern(pattern, flag)
      runHaxeCode((F[[
-          var skinSearchInput = getVar('skinSearchInput');
-          skinSearchInput.customFilterPattern = new EReg("${pattern}", "${flag}");
-     ]]):gsub('skinSearchInput', self.tag))
+          var flavorTextField = getVar('flavorTextField');
+          flavorTextField.customFilterPattern = new EReg("${pattern}", "${flag}");
+     ]]):gsub('flavorTextField', self.tag))
 end
 
 return FlavorUI_TextField
