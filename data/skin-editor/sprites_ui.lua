@@ -103,7 +103,6 @@ editorInputFieldFiles:add()
 
 -- Save --
 
-
 local editorInputFieldSaveFile = FlavorUI_TextField:new('editorInputFieldSaveFile', '', calcPosY(15, 8), calcPosY((530.5+630.5)/2, 6), 360)
 editorInputFieldSaveFile.font                 = 'NoteSkin Selector Remastered/fonts/TOMO Sponge Regular.otf'
 editorInputFieldSaveFile.size                 = 20
