@@ -174,7 +174,7 @@ function SkinNotesPage:page_moved()
      if #SEARCH_INPUT_TEXT_CONTENT > 0 then
           if gameControlPressedUp or gameControlPressedDown then
                setTextColor('skinStatePreviewPage', 'f0b72f')
-               playSound('cancel')
+               playSound('cancel', 0.4)
           end
           return
      end
@@ -186,11 +186,11 @@ function SkinNotesPage:page_moved()
           if totalSkinObjectsPagePerClicked[curSkinIDs] == true then
                if gameControlPressedUp and self.SCROLLBAR_PAGE_INDEX > 1 then
                     setTextColor('skinStatePreviewPage', 'f0b72f')
-                    playSound('cancel')
+                    playSound('cancel', 0.4)
                end
                if gameControlPressedDown and self.SCROLLBAR_PAGE_INDEX < self.TOTAL_SKIN_LIMIT then
                     setTextColor('skinStatePreviewPage', 'f0b72f')
-                    playSound('cancel')
+                    playSound('cancel', 0.4)
                end
                return
           end

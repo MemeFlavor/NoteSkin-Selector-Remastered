@@ -17,16 +17,17 @@ local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
 precacheImage('menuDesat')
 precacheImage('checkboxanim')
-precacheImage('ui-new/sidecover')
-precacheImage('ui-new/highlight')
-precacheImage('ui-new/flavorui/button/button_display')
-precacheImage('ui-new/flavorui/button/button_preview')
-precacheImage('ui-new/flavorui/button/button_preview-icon')
-precacheImage('ui-new/flavorui/button/button_preview_selection')
-precacheImage('ui-new/flavorui/scrollbar/scrollbar_thumb')
-precacheImage('ui-new/flavorui/scrollbar/scrollbar_track')
-precacheImage('ui-new/flavorui/textfield/textfield_string_search')
-precacheImage('ui-new/flavorui/toggle/toggle')
+precacheImage('ui/sidecover')
+precacheImage('ui/highlight')
+precacheImage('ui/flavorui/cursor')
+precacheImage('ui/flavorui/button/button_display')
+precacheImage('ui/flavorui/button/button_preview')
+precacheImage('ui/flavorui/button/button_preview-icon')
+precacheImage('ui/flavorui/button/button_preview_selection')
+precacheImage('ui/flavorui/scrollbar/scrollbar_thumb')
+precacheImage('ui/flavorui/scrollbar/scrollbar_track')
+precacheImage('ui/flavorui/textfield/textfield_string_search')
+precacheImage('ui/flavorui/toggle/toggle')
 
 -- Background --
 
@@ -38,7 +39,7 @@ addLuaSprite('skinSelectorBG')
 
 -- Page Scrollbar --
 
-makeAnimatedLuaSprite('pageScrollbarThumb', 'ui-new/flavorui/scrollbar/scrollbar_thumb', 600, 127) -- min: 127; max: 643
+makeAnimatedLuaSprite('pageScrollbarThumb', 'ui/flavorui/scrollbar/scrollbar_thumb', 600, 127) -- min: 127; max: 643
 addAnimationByPrefix('pageScrollbarThumb', 'static', 'static')
 addAnimationByPrefix('pageScrollbarThumb', 'pressed', 'pressed')
 addAnimationByPrefix('pageScrollbarThumb', 'disabled', 'disabled')
@@ -58,9 +59,9 @@ addLuaSprite('pageScrollbarTrack', true)
 
 -- Selection Animation Buttons --
 
-local PREVIEW_SKIN_BUTTON_SPRITE    = 'ui/buttons/preview anim/previewAnimIcon_button'
-local PREVIEW_SKIN_ICON_SPRITE      = 'ui/buttons/preview anim/previewAnimInfoDirection_button'
-local PREVIEW_SKIN_SELECTION_SPRITE = 'ui/buttons/preview anim/previewAnimSelection_button'
+local PREVIEW_SKIN_BUTTON_SPRITE    = 'ui/flavorui/button/button_preview'
+local PREVIEW_SKIN_ICON_SPRITE      = 'ui/flavorui/button/button_preview-icon'
+local PREVIEW_SKIN_SELECTION_SPRITE = 'ui/flavorui/button/button_preview_selection'
 
 makeLuaText('previewSkinTitle', 'Preview Animations', 0, 787, 470)
 setTextFont('previewSkinTitle', 'FridayNight.ttf')
@@ -71,10 +72,10 @@ setProperty('previewSkinTitle.antialiasing', false)
 addLuaText('previewSkinTitle')
 
 makeAnimatedLuaSprite('previewSkinButtonLeft', PREVIEW_SKIN_BUTTON_SPRITE, 787, 500)
-addAnimationByPrefix('previewSkinButtonLeft', 'static', 'skinanim-static', 24, false)
-addAnimationByPrefix('previewSkinButtonLeft', 'hovered-blocked', 'skinanim-hovered-blocked', 24, false)
-addAnimationByPrefix('previewSkinButtonLeft', 'hovered-static', 'skinanim-hovered-static', 24, false)
-addAnimationByPrefix('previewSkinButtonLeft', 'hovered-pressed', 'skinanim-hovered-pressed', 24, false)
+addAnimationByPrefix('previewSkinButtonLeft', 'static', 'static', 24, false)
+addAnimationByPrefix('previewSkinButtonLeft', 'disabled', 'disabled', 24, false)
+addAnimationByPrefix('previewSkinButtonLeft', 'hovered-static', 'hovered-static', 24, false)
+addAnimationByPrefix('previewSkinButtonLeft', 'hovered-pressed', 'hovered-pressed', 24, false)
 playAnim('previewSkinButtonLeft', 'static', true)
 scaleObject('previewSkinButtonLeft', 0.5, 0.5)
 setObjectCamera('previewSkinButtonLeft', 'camHUD')
@@ -82,9 +83,9 @@ setProperty('previewSkinButtonLeft.antialiasing', false)
 addLuaSprite('previewSkinButtonLeft')
 
 makeAnimatedLuaSprite('preivewSkinButtonIconLeft', PREVIEW_SKIN_ICON_SPRITE, 787+(150/11), 500+(25/2))
-addAnimationByPrefix('preivewSkinButtonIconLeft', 'none', 'icons-none', 24, false)
-addAnimationByPrefix('preivewSkinButtonIconLeft', 'left', 'icons-left', 24, false)
-addAnimationByPrefix('preivewSkinButtonIconLeft', 'right', 'icons-right', 24, false)
+addAnimationByPrefix('preivewSkinButtonIconLeft', 'none', 'none', 24, false)
+addAnimationByPrefix('preivewSkinButtonIconLeft', 'left', 'left', 24, false)
+addAnimationByPrefix('preivewSkinButtonIconLeft', 'right', 'right', 24, false)
 playAnim('preivewSkinButtonIconLeft', 'none', true)
 scaleObject('preivewSkinButtonIconLeft', 0.5, 0.5)
 setObjectCamera('preivewSkinButtonIconLeft', 'camHUD')
@@ -92,10 +93,10 @@ setProperty('preivewSkinButtonIconLeft.antialiasing', false)
 addLuaSprite('preivewSkinButtonIconLeft')
 
 makeAnimatedLuaSprite('previewSkinButtonRight', PREVIEW_SKIN_BUTTON_SPRITE, 859, 500)
-addAnimationByPrefix('previewSkinButtonRight', 'static', 'skinanim-static', 24, false)
-addAnimationByPrefix('previewSkinButtonRight', 'hovered-blocked', 'skinanim-hovered-blocked', 24, false)
-addAnimationByPrefix('previewSkinButtonRight', 'hovered-static', 'skinanim-hovered-static', 24, false)
-addAnimationByPrefix('previewSkinButtonRight', 'hovered-pressed', 'skinanim-hovered-pressed', 24, false)
+addAnimationByPrefix('previewSkinButtonRight', 'static', 'static', 24, false)
+addAnimationByPrefix('previewSkinButtonRight', 'disabled', 'disabled', 24, false)
+addAnimationByPrefix('previewSkinButtonRight', 'hovered-static', 'hovered-static', 24, false)
+addAnimationByPrefix('previewSkinButtonRight', 'hovered-pressed', 'hovered-pressed', 24, false)
 playAnim('previewSkinButtonRight', 'static', true)
 scaleObject('previewSkinButtonRight', 0.5, 0.5)
 setObjectCamera('previewSkinButtonRight', 'camHUD')
@@ -103,9 +104,9 @@ setProperty('previewSkinButtonRight.antialiasing', false)
 addLuaSprite('previewSkinButtonRight')
 
 makeAnimatedLuaSprite('previewSkinButtonIconRight', PREVIEW_SKIN_ICON_SPRITE, 859+(150/11), 500+(25/2))
-addAnimationByPrefix('previewSkinButtonIconRight', 'none', 'icons-none', 24, false)
-addAnimationByPrefix('previewSkinButtonIconRight', 'left', 'icons-left', 24, false)
-addAnimationByPrefix('previewSkinButtonIconRight', 'right', 'icons-right', 24, false)
+addAnimationByPrefix('previewSkinButtonIconRight', 'none', 'none', 24, false)
+addAnimationByPrefix('previewSkinButtonIconRight', 'left', 'left', 24, false)
+addAnimationByPrefix('previewSkinButtonIconRight', 'right', 'right', 24, false)
 playAnim('previewSkinButtonIconRight', 'right', true)
 scaleObject('previewSkinButtonIconRight', 0.5, 0.5)
 setObjectCamera('previewSkinButtonIconRight', 'camHUD')
@@ -113,10 +114,10 @@ setProperty('previewSkinButtonIconRight.antialiasing', false)
 addLuaSprite('previewSkinButtonIconRight')
 
 makeAnimatedLuaSprite('previewSkinButtonSelection', PREVIEW_SKIN_SELECTION_SPRITE, 967, 500)
-addAnimationByPrefix('previewSkinButtonSelection', 'static', 'selection-static', 24, false)
-addAnimationByPrefix('previewSkinButtonSelection', 'pressed', 'selection-pressed', 24, false)
-addAnimationByPrefix('previewSkinButtonSelection', 'hovered-static', 'selection-hovered-static', 24, false)
-addAnimationByPrefix('previewSkinButtonSelection', 'hovered-pressed', 'selection-hovered-pressed', 24, false)
+addAnimationByPrefix('previewSkinButtonSelection', 'static', 'static', 24, false)
+addAnimationByPrefix('previewSkinButtonSelection', 'pressed', 'pressed', 24, false)
+addAnimationByPrefix('previewSkinButtonSelection', 'hovered-static', 'hovered-static', 24, false)
+addAnimationByPrefix('previewSkinButtonSelection', 'hovered-pressed', 'hovered-pressed', 24, false)
 playAnim('previewSkinButtonSelection', 'static', true)
 scaleObject('previewSkinButtonSelection', 0.5, 0.5)
 setObjectCamera('previewSkinButtonSelection', 'camHUD')
@@ -139,7 +140,7 @@ addLuaText('previewSkinToggleAnimDescText')
 
 -- Toggle --
 
-makeAnimatedLuaSprite('previewSkinToggleAnims', 'ui/buttons/preview anim/previewAnimIcon_toggle', 783, 600)
+makeAnimatedLuaSprite('previewSkinToggleAnims', 'ui/flavorui/toggle/toggle', 783, 600)
 addAnimationByPrefix('previewSkinToggleAnims', 'active-static', 'active-static', 24, false)
 addAnimationByPrefix('previewSkinToggleAnims', 'active-hovered', 'active-hovered', 24, false)
 addAnimationByPrefix('previewSkinToggleAnims', 'active-focused', 'active-focused', 24, false)
@@ -223,7 +224,7 @@ local MOUSE_ANIMATION_OFFSETS = {
      DISABLED = {38, 22.6},
 }
 
-makeAnimatedLuaSprite('mouseTexture', 'ui/cursor', getMouseX('camOther'), getMouseY('camOther'))
+makeAnimatedLuaSprite('mouseTexture', 'ui/flavorui/cursor', getMouseX('camOther'), getMouseY('camOther'))
 scaleObject('mouseTexture', 0.4, 0.4)
 addAnimationByPrefix('mouseTexture', 'idle', 'idle', 24, false)
 addAnimationByPrefix('mouseTexture', 'idleClick', 'idleClick', 24, false)

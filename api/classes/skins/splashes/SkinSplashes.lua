@@ -194,10 +194,10 @@ function SkinSplashes:create(page)
           local displaySkinIconPosX = displaySkinIconPositions()[skinDisplays][1]
           local displaySkinIconPosY = displaySkinIconPositions()[skinDisplays][2]
 
-          makeAnimatedLuaSprite(displaySkinIconButtonTag, 'ui/buttons/display_button', displaySkinIconPosX, displaySkinIconPosY)
+          makeAnimatedLuaSprite(displaySkinIconButtonTag, 'ui/flavorui/button/button_display', displaySkinIconPosX, displaySkinIconPosY)
           addAnimationByPrefix(displaySkinIconButtonTag, 'static', 'static')
           addAnimationByPrefix(displaySkinIconButtonTag, 'selected', 'selected')
-          addAnimationByPrefix(displaySkinIconButtonTag, 'blocked', 'blocked')
+          addAnimationByPrefix(displaySkinIconButtonTag, 'disabled', 'disabled')
           addAnimationByPrefix(displaySkinIconButtonTag, 'hover', 'hovered-static')
           addAnimationByPrefix(displaySkinIconButtonTag, 'pressed', 'hovered-pressed')
           playAnim(displaySkinIconButtonTag, 'static', true)

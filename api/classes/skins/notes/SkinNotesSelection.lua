@@ -181,7 +181,7 @@ function SkinNotesSelection:selection_byhover()
           local previewSkinObjectDefaultAnims = previewSkinObjectMissingAnims[previewSkinObjectAnims]
           if luaSpriteExists(displaySkinIconButtonTag) == true then
                if previewSkinObjectDefaultAnims == true then
-                    playAnim(displaySkinIconButtonTag, 'blocked', true)
+                    playAnim(displaySkinIconButtonTag, 'disabled', true)
                elseif self.SELECT_SKIN_CUR_SELECTION_INDEX == curIDs and previewSkinObjectDefaultAnims == false then
                     playAnim(displaySkinIconButtonTag, 'selected', true)
                end
@@ -238,7 +238,7 @@ function SkinNotesSelection:selection_bycursor()
                end
 
                if mouseClicked('left') then 
-                    playSound('cancel') 
+                    playSound('cancel', 0.4)
                end
                if mouseClicked('left') or mousePressed('left') then 
                     playAnim('mouseTexture', 'disabledClick', true)
@@ -258,7 +258,7 @@ function SkinNotesSelection:selection_bycursor()
                playAnim('mouseTexture', 'disabled', true)
           end
           if mouseClicked('left') then 
-               playSound('cancel') 
+               playSound('cancel', 0.4) 
           end
      end
 end

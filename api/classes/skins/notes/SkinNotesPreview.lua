@@ -393,13 +393,13 @@ function SkinNotesPreview:preview_selection_byhover()
      if previewAnimationMinIndex == true then
           previewSelectionButtonHover(DIRECTION.LEFT, 'left')
      else
-          playAnim('previewSkinButtonLeft', 'hovered-blocked', true)
+          playAnim('previewSkinButtonLeft', 'disabled', true)
           self.PREVIEW_SKIN_OBJECT_ANIMS_HOVERED[DIRECTION.LEFT] = false
      end
      if previewAnimationMaxIndex == true then
           previewSelectionButtonHover(DIRECTION.RIGHT, 'right')
      else
-          playAnim('previewSkinButtonRight', 'hovered-blocked', true)
+          playAnim('previewSkinButtonRight', 'disabled', true)
           self.PREVIEW_SKIN_OBJECT_ANIMS_HOVERED[DIRECTION.RIGHT] = false
      end
 end
@@ -429,7 +429,7 @@ function SkinNotesPreview:preview_selection_bycursor()
           end
 
           if mouseClicked('left') then 
-               playSound('cancel') 
+               playSound('cancel', 0.4) 
           end
      end
 end

@@ -138,10 +138,10 @@ function SkinNotesSearch:search_create()
           local displaySkinIconSkinTag   = F"displaySkinIconSkin${self.stateClass:upperAtStart()}-${skinSearchIDs}"
           local displaySkinIconPosX = displaySkinIconPositions()[skinSearchIndex][1]
           local displaySkinIconPosY = displaySkinIconPositions()[skinSearchIndex][2]
-          makeAnimatedLuaSprite(displaySkinIconButtonTag, 'ui/buttons/display_button', displaySkinIconPosX, displaySkinIconPosY)
+          makeAnimatedLuaSprite(displaySkinIconButtonTag, 'ui/flavorui/button/button_display', displaySkinIconPosX, displaySkinIconPosY)
           addAnimationByPrefix(displaySkinIconButtonTag, 'static', 'static')
           addAnimationByPrefix(displaySkinIconButtonTag, 'selected', 'selected')
-          addAnimationByPrefix(displaySkinIconButtonTag, 'blocked', 'blocked')
+          addAnimationByPrefix(displaySkinIconButtonTag, 'disabled', 'disabled')
           addAnimationByPrefix(displaySkinIconButtonTag, 'hover', 'hovered-static')
           addAnimationByPrefix(displaySkinIconButtonTag, 'pressed', 'hovered-pressed')
           playAnim(displaySkinIconButtonTag, 'static', true)
@@ -547,7 +547,7 @@ function SkinNotesSearch:search_selection_byhover()
           local previewSkinObjectMissingAnims = self.PREVIEW_SKIN_OBJECT_ANIMS_MISSING[searchSkinPage][searchSkinPresentIDs]
           local previewSkinObjectDefaultAnims = previewSkinObjectMissingAnims[previewSkinObjectAnims]
           if previewSkinObjectDefaultAnims == true then
-               playAnim(displaySkinIconButtonTag, 'blocked', true)
+               playAnim(displaySkinIconButtonTag, 'disabled', true)
           end
      end
 
@@ -600,7 +600,7 @@ function SkinNotesSearch:search_selection_cursor()
                end
 
                if mouseClicked('left') then 
-                    playSound('cancel') 
+                    playSound('cancel', 0.4) 
                end
                if mouseClicked('left') or mousePressed('left') then 
                     playAnim('mouseTexture', 'disabledClick', true)
@@ -621,7 +621,7 @@ function SkinNotesSearch:search_selection_cursor()
                playAnim('mouseTexture', 'disabled', true)
           end
           if mouseClicked('left') then 
-               playSound('cancel') 
+               playSound('cancel', 0.4) 
           end
      end
 end

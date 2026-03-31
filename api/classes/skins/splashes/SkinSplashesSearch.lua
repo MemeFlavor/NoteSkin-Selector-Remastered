@@ -97,10 +97,10 @@ function SkinSplashesSearch:search_create()
           local displaySkinIconTagSkin   = F"displaySkinIconSkin${self.stateClass:upperAtStart()}-${skinSearchIDs}"
           local displaySkinIconPosX = displaySkinIconPositions()[skinSearchIndex][1]
           local displaySkinIconPosY = displaySkinIconPositions()[skinSearchIndex][2]
-          makeAnimatedLuaSprite(displaySkinIconTagButton, 'ui/buttons/display_button', displaySkinIconPosX, displaySkinIconPosY)
+          makeAnimatedLuaSprite(displaySkinIconTagButton, 'ui/flavorui/button/button_display', displaySkinIconPosX, displaySkinIconPosY)
           addAnimationByPrefix(displaySkinIconTagButton, 'static', 'static')
           addAnimationByPrefix(displaySkinIconTagButton, 'selected', 'selected')
-          addAnimationByPrefix(displaySkinIconTagButton, 'blocked', 'blocked')
+          addAnimationByPrefix(displaySkinIconTagButton, 'disabled', 'disabled')
           addAnimationByPrefix(displaySkinIconTagButton, 'hover', 'hovered-static')
           addAnimationByPrefix(displaySkinIconTagButton, 'pressed', 'hovered-pressed')
           playAnim(displaySkinIconTagButton, 'static', true)

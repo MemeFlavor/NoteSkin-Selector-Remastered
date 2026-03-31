@@ -44,7 +44,7 @@ end
 --- Creates the mouse object into the game.
 ---@return nil
 function FlavorUI_Mouse:create()
-     makeAnimatedLuaSprite('FlavorMouseUI', 'ui/cursor', getMouseX('camOther'), getMouseY('camOther'))
+     makeAnimatedLuaSprite('FlavorMouseUI', 'ui/flavorui/cursor', getMouseX('camOther'), getMouseY('camOther'))
      scaleObject('FlavorMouseUI', self.size, self.size)
      addAnimationByPrefix('FlavorMouseUI', 'idle', 'idle0', 24, false)
      addAnimationByPrefix('FlavorMouseUI', 'idleClick', 'idleClick', 24, false)

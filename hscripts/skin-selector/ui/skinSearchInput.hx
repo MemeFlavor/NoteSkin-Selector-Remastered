@@ -10,8 +10,8 @@ var skinSearchInput_placeholder:FlxText  = new FlxText(35, 55 + 12, 0, 'Search S
 var skinSearchInput_caret:FlxSprite      = new FlxSprite(0, 0);
 var skinSearchInput:PsychUIInputText     = new PsychUIInputText(34, 54+12, 385, '', 31);
 function onCreate() {
-     skinSearchInput_background.loadGraphic(Paths.image('ui/buttons/search_input'));
-     skinSearchInput_background.frames = Paths.getSparrowAtlas('ui/buttons/search_input');
+	skinSearchInput_background.loadGraphic(Paths.image('ui/flavorui/textfield/textfield_string_search'));
+	skinSearchInput_background.frames = Paths.getSparrowAtlas('ui/flavorui/textfield/textfield_string_search');
      skinSearchInput_background.animation.addByPrefix('default', 'default', 24, false);
      skinSearchInput_background.animation.addByPrefix('hovered', 'hovered', 24, false);
      skinSearchInput_background.animation.addByPrefix('selectAll', 'selectAll', 24, false);

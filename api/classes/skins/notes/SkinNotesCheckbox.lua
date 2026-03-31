@@ -67,10 +67,10 @@ function SkinNotesCheckbox:checkbox()
           setProperty(F"${checkboxSkinTitleTag}.antialiasing", false)
           addLuaText(checkboxSkinTitleTag)
 
-          makeAnimatedLuaSprite(checkboxSkinSelectionTag, 'ui/display_selected', 0, 0)
+          makeAnimatedLuaSprite(checkboxSkinSelectionTag, 'ui/highlight', 0, 0)
           scaleObject(checkboxSkinSelectionTag, 0.8, 0.8)
-          addAnimationByPrefix(checkboxSkinSelectionTag, 'player', 'selected-player', 24, false)
-          addAnimationByPrefix(checkboxSkinSelectionTag, 'opponent', 'selected-opponent', 24, false)
+          addAnimationByPrefix(checkboxSkinSelectionTag, 'player', 'player', 24, false)
+          addAnimationByPrefix(checkboxSkinSelectionTag, 'opponent', 'opponent', 24, false)
 
           local CHECKBOX_SKIN_SELECTION_MODIFY_OFFSET    = 5
           local CHECKBOX_SKIN_SELECTION_CURRENT_OFFSET_X = getProperty(F"${checkboxSkinSelectionTag}.offset.x") + CHECKBOX_SKIN_SELECTION_MODIFY_OFFSET
@@ -262,9 +262,9 @@ function SkinNotesCheckbox:checkbox_selection_bycursor()
                end
      
                if mouseClicked('left') then 
-                    playSound('cancel') 
+                    playSound('cancel', 0.4) 
                end
-               goto SKIP_CHECKBOX_BLOCKED
+               goto SKIP_CHECKBOX_DISABLED
           end
 
           if self.CHECKBOX_SKIN_OBJECT_CLICKED[CharValues] == true then
@@ -275,7 +275,7 @@ function SkinNotesCheckbox:checkbox_selection_bycursor()
                playAnim('mouseTexture', 'hand', true)
                return
           end
-          ::SKIP_CHECKBOX_BLOCKED::
+          ::SKIP_CHECKBOX_DISABLED::
           ::SKIP_CHECKBOX_SKIN_MISSING_CHAR_BYCURSOR::
      end
 end
