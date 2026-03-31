@@ -33,7 +33,7 @@ function SkinNotesPage:page_scrollbar(snapToPage)
 
      local MINIMUM_SKIN_LIMIT = 1
      if self.TOTAL_SKIN_LIMIT <= MINIMUM_SKIN_LIMIT then
-          playAnim(pageScrollbarThumb, 'unscrollable')
+          playAnim(pageScrollbarThumb, 'disabled')
      end
      if self.TOTAL_SKIN_LIMIT > MINIMUM_SKIN_LIMIT and self.SCROLLBAR_TRACK_THUMB_PRESSED == true then
           local DISPLAY_SCROLL_THUMB_HEIGHT   = getProperty(F"${pageScrollbarThumb}.height")

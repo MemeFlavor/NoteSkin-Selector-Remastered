@@ -17,13 +17,16 @@ local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
 precacheImage('menuDesat')
 precacheImage('checkboxanim')
-precacheImage('ui/buttons/slider_button')
-precacheImage('ui/buttons/display_button')
-precacheImage('ui/buttons/preview anim/previewAnimIcon_button')
-precacheImage('ui/buttons/preview anim/previewAnimInfoDirection_button')
-precacheImage('ui/buttons/preview anim/previewAnimSelection_button')
-precacheImage('ui/display_selected')
-precacheImage('ui/cursor')
+precacheImage('ui-new/sidecover')
+precacheImage('ui-new/highlight')
+precacheImage('ui-new/flavorui/button/button_display')
+precacheImage('ui-new/flavorui/button/button_preview')
+precacheImage('ui-new/flavorui/button/button_preview-icon')
+precacheImage('ui-new/flavorui/button/button_preview_selection')
+precacheImage('ui-new/flavorui/scrollbar/scrollbar_thumb')
+precacheImage('ui-new/flavorui/scrollbar/scrollbar_track')
+precacheImage('ui-new/flavorui/textfield/textfield_string_search')
+precacheImage('ui-new/flavorui/toggle/toggle')
 
 -- Background --
 
@@ -35,10 +38,10 @@ addLuaSprite('skinSelectorBG')
 
 -- Page Scrollbar --
 
-makeAnimatedLuaSprite('pageScrollbarThumb', 'ui/buttons/slider_button', 600, 127) -- min: 127; max: 643
-addAnimationByPrefix('pageScrollbarThumb', 'static', 'slider_button-static')
-addAnimationByPrefix('pageScrollbarThumb', 'pressed', 'slider_button-pressed')
-addAnimationByPrefix('pageScrollbarThumb', 'unscrollable', 'slider_button-unscrollable')
+makeAnimatedLuaSprite('pageScrollbarThumb', 'ui-new/flavorui/scrollbar/scrollbar_thumb', 600, 127) -- min: 127; max: 643
+addAnimationByPrefix('pageScrollbarThumb', 'static', 'static')
+addAnimationByPrefix('pageScrollbarThumb', 'pressed', 'pressed')
+addAnimationByPrefix('pageScrollbarThumb', 'disabled', 'disabled')
 playAnim('pageScrollbarThumb', 'static')
 scaleObject('pageScrollbarThumb', 0.6, 0.6)
 setObjectCamera('pageScrollbarThumb', 'camHUD')
