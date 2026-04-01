@@ -119,7 +119,7 @@ editorInputFieldSaveFile.onChange             = [[ FlxG.sound.play(Paths.soundRa
 editorInputFieldSaveFile:add()
 
 
-local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite', '')
+local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 
 
 -- Mouse --
@@ -128,6 +128,7 @@ local mouse = FlavorUI_Mouse:new(0.4, {-4,0})
 mouse:add_element('hand', 'editorInputSpriteOffsetX', 'editorInputSpriteOffsetY')
 mouse:add_element('hand', 'editorInputSpriteSizeX', 'editorInputSpriteSizeY')
 mouse:add_element('hand', 'editorInputSpriteFrames', 'editorInputSpriteFile', 'editorInputSpriteSaveFile', 'buttonThingy')
+mouse:add_element('hand', 'editorSaveDataSprite')
 mouse:callback_element('disable', 'onClick', function() playSound('cancel', 0.8) end)
 mouse:create()
 
@@ -141,6 +142,18 @@ function onUpdate(elapsed)
      editorInputFieldSaveFile:update()
 
      editorSaveDataSprite:update()
+
+     if keyboardJustPressed('R') then
+          editorSaveDataSprite:set_state('disabled')
+          mouse:remove_element('hand', 'editorSaveDataSprite')
+          mouse:add_element('disable', 'editorSaveDataSprite')
+     end
+
+     if keyboardJustPressed('D') then
+          editorSaveDataSprite:set_state('static')
+          mouse:remove_element('disable', 'editorSaveDataSprite')
+          mouse:add_element('hand', 'editorSaveDataSprite')
+     end
 
      mouse:update()
 end

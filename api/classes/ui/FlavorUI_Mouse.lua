@@ -30,9 +30,14 @@ function FlavorUI_Mouse:new(size, offsets)
      self.size      = size
      self.offsets   = offsets
 
-     local callbackLists = {onHover = function() end, onClick = function() end, onPress = function() end}
-     self.elements  = setmetatable({ hand = table.new(0xff,0), disable = table.new(0xff,0)}, MOUSE_VARIANT_ERROR)
-     self.callbacks = setmetatable({ hand = callbackLists, disable = callbackLists}, MOUSE_VARIANT_ERROR)
+     self.elements  = setmetatable({
+          hand      = table.new(0xff,0),
+          disable   = table.new(0xff,0)},
+     MOUSE_VARIANT_ERROR)
+     self.callbacks = setmetatable({
+          hand      = {onHover = function() end, onClick = function() end, onPress = function() end},
+          disable   = {onHover = function() end, onClick = function() end, onPress = function() end}},
+     MOUSE_VARIANT_ERROR)
      return self
 end
 
@@ -76,7 +81,7 @@ function FlavorUI_Mouse:update()
      end
 
      for variants, variant_elements in pairs(self.elements) do
-          for _, elements in ipairs(variant_elements) do
+          for _, elements in pairs(variant_elements) do
                local hoverMouse = hoverObject(elements, 'camHUD')
                local clickMouse = clickObject(elements, 'camHUD')
                local pressMouse = pressedObject(elements, 'camHUD')
@@ -103,7 +108,7 @@ end
 function FlavorUI_Mouse:add_element(variant, ...)
      local added = {...}
      for addIndex = 1, #added do
-          table.insert(self.elements[variant], added[addIndex])
+          self.elements[variant][added[addIndex]] = added[addIndex]
      end
 end
 
@@ -114,7 +119,10 @@ end
 function FlavorUI_Mouse:remove_element(variant, ...)
      local remove = {...}
      for removeIndex = 1, #remove do
-          table.remove(self.elements[variant], table.find(self.elements[variant], remove[removeIndex]))
+          if self.elements[variant][remove[removeIndex]] == nil then
+               return
+          end
+          self.elements[variant][table.find(self.elements[variant], remove[removeIndex])] = nil
      end
 end
 
