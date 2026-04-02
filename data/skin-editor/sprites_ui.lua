@@ -146,15 +146,12 @@ function onUpdate(elapsed)
 
      if keyboardJustPressed('R') then
           editorSaveDataSprite:set_state('disabled')
-          mouse:remove_element('hand', 'editorSaveDataSprite')
-          mouse:add_element('disable', 'editorSaveDataSprite')
+          mouse:switch_variant('hand', 'disable', 'editorSaveDataSprite')
      end
 
      if keyboardJustPressed('D') then
           editorSaveDataSprite:set_state('static')
-          mouse:remove_element('disable', 'editorSaveDataSprite')
-          mouse:add_element('hand', 'editorSaveDataSprite')
+          mouse:switch_variant('disable', 'hand', 'editorSaveDataSprite')
      end
-
      mouse:update()
 end

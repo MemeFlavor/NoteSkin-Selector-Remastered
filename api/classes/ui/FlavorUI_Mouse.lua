@@ -101,7 +101,7 @@ function FlavorUI_Mouse:update()
      end
 end
 
---- Adds an object element for the mouse to be interactible.
+--- Adds an object elements for the mouse to be interactible.
 ---@param variant string The specified mouse variant for the object element to interact to.
 ---@param elements... any The said element(s) to be interactible.
 ---@return nil
@@ -112,7 +112,7 @@ function FlavorUI_Mouse:add_element(variant, ...)
      end
 end
 
---- Removes an object element to detach its interactibility.
+--- Removes an object elements to detach its interactibility.
 ---@param variant string The specified mouse variant that the object is attach to.
 ---@param elements... any The said element(s) to be remove.
 ---@return nil
@@ -133,6 +133,19 @@ end
 ---@return nil
 function FlavorUI_Mouse:callback_element(variants, callback, code)
      self.callbacks[variants][callback] = code
+end
+
+--- Switches the object element(s)' variant to a new one; helper method.
+---@param prevVariant string The previous current variant of the object element(s). 
+---@param nextVariant string The new variant for the object element(s) to switch to.
+---@param elements... any
+---@return nil
+function FlavorUI_Mouse:switch_variant(prevVariant, nextVariant, ...)
+     local elements = {...}
+     for elementIndex = 1, #elements do
+          self:remove_element(prevVariant, elements[elementIndex])
+          self:add_element(nextVariant, elements[elementIndex])
+     end
 end
 
 return FlavorUI_Mouse

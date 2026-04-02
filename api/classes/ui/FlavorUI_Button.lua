@@ -66,14 +66,18 @@ function FlavorUI_Button:update()
 end
 
 function FlavorUI_Button:set_state(value)
+     local hoverMouse = hoverObject(self.tag, 'camHUD')
+     local clickMouse = clickObject(self.tag, 'camHUD')
+     local pressMouse = pressedObject(self.tag, 'camHUD')
      self.state = value
 
-     self.inter_hovered = hoverObject(self.tag, 'camHUD')
-     self.inter_clicked = pressedObject(self.tag, 'camHUD')
+     self.inter_hovered = hoverMouse
+     self.inter_clicked = pressMouse == false and true or pressMouse
      self:update()
 end
 
 function FlavorUI_Button:get_state()
+     return self.state
 end
 
 return FlavorUI_Button
