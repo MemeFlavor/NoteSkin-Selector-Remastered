@@ -121,7 +121,6 @@ editorInputFieldSaveFile:add()
 
 local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 
-
 -- Mouse --
 
 local mouse = FlavorUI_Mouse:new(0.4, {-4,0})
@@ -129,7 +128,6 @@ mouse:add_element('hand', 'editorInputSpriteOffsetX', 'editorInputSpriteOffsetY'
 mouse:add_element('hand', 'editorInputSpriteSizeX', 'editorInputSpriteSizeY')
 mouse:add_element('hand', 'editorInputSpriteFrames', 'editorInputSpriteFile', 'editorInputSpriteSaveFile', 'buttonThingy')
 mouse:add_element('hand', 'editorSaveDataSprite')
-mouse:callback_element('disable', 'onClick', function() playSound('cancel', 0.8) end)
 mouse:create()
 
 function onUpdate(elapsed)
@@ -142,7 +140,6 @@ function onUpdate(elapsed)
      editorInputFieldSaveFile:update()
 
      editorSaveDataSprite:update()
-
 
      if keyboardJustPressed('R') then
           editorSaveDataSprite:set_state('disabled')

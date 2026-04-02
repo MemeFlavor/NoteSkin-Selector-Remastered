@@ -32,12 +32,12 @@ function FlavorUI_Mouse:new(size, offsets)
 
      self.elements  = setmetatable({
           hand      = table.new(0xff,0),
-          disable   = table.new(0xff,0)},
-     MOUSE_VARIANT_ERROR)
+          disable   = table.new(0xff,0)
+     }, MOUSE_VARIANT_ERROR)
      self.callbacks = setmetatable({
           hand      = {onHover = function() end, onClick = function() end, onPress = function() end},
-          disable   = {onHover = function() end, onClick = function() end, onPress = function() end}},
-     MOUSE_VARIANT_ERROR)
+          disable   = {onHover = function() end, onClick = function() end, onPress = function() end}
+     }, MOUSE_VARIANT_ERROR)
      return self
 end
 

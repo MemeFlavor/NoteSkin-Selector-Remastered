@@ -35,6 +35,10 @@ function FlavorUI_Button:update()
 
      if self.state == 'disabled' then
           playAnim(self.tag, 'disabled')
+
+          if clickMouse == true then
+               playSound('cancel', 0.4)
+          end
           return
      end
 

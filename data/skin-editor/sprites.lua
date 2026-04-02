@@ -178,7 +178,7 @@ addLuaSprite('editorSaveDataSprite')
 
 ---
 
-makeAnimatedLuaSprite('hahaha1', 'ui/flavorui/button/button_display', 500, 300)
+--[[ makeAnimatedLuaSprite('hahaha1', 'ui/flavorui/button/button_display', 500, 300)
 addAnimationByPrefix('hahaha1', 'static', 'static')
 addAnimationByPrefix('hahaha1', 'selected', 'selected')
 addAnimationByPrefix('hahaha1', 'disabled', 'disabled')
@@ -200,4 +200,4 @@ playAnim('hahaha2', 'static', true)
 scaleObject('hahaha2', 0.8, 0.8)
 setObjectCamera('hahaha2', 'camHUD')
 setProperty('hahaha2.antialiasing', false)
-addLuaSprite('hahaha2')
+addLuaSprite('hahaha2') ]]
