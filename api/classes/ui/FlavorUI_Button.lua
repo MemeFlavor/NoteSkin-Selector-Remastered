@@ -46,6 +46,8 @@ function FlavorUI_Button:update()
           playAnim(self.tag, 'hovered')
           self.state = 'hovered'
           self.inter_hovered = false
+
+          self:onHover()
           return
      end
      if hoverMouse == false and self.inter_hovered == false then
@@ -59,12 +61,16 @@ function FlavorUI_Button:update()
           playAnim(self.tag, 'pressed')
           self.state = 'pressed'
           self.inter_clicked = false
+
+          self:onClick()
           return
      end
      if (releaseMouse) and self.inter_clicked == false then
           playAnim(self.tag, 'hovered')
           self.state = 'hovered'
           self.inter_clicked = true
+
+          self:onRelease()
           return
      end
 end
@@ -82,6 +88,15 @@ end
 
 function FlavorUI_Button:get_state()
      return self.state
+end
+
+function FlavorUI_Button:onHover()
+end
+
+function FlavorUI_Button:onClick()
+end
+
+function FlavorUI_Button:onRelease()
 end
 
 return FlavorUI_Button
