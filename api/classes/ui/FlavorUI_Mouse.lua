@@ -119,10 +119,22 @@ end
 function FlavorUI_Mouse:remove_element(variant, ...)
      local remove = {...}
      for removeIndex = 1, #remove do
-          if self.elements[variant][remove[removeIndex]] == nil then
-               return
+          local removeElement = table.find(self.elements[variant], remove[removeIndex])
+          if removeElement ~= nil then
+               self.elements[variant][removeElement] = nil
           end
-          self.elements[variant][table.find(self.elements[variant], remove[removeIndex])] = nil
+     end
+end
+
+function FlavorUI_Mouse:remove_elementAll(...)
+     local remove = {...}
+     for variants, variant_elements in pairs(self.elements) do
+          for removeIndex = 1, #remove do
+               local removeElement = table.find(variant_elements, remove[removeIndex])
+               if removeElement ~= nil then
+                    self.elements[variants][removeElement] = nil
+               end
+          end
      end
 end
 
@@ -146,6 +158,16 @@ function FlavorUI_Mouse:switch_variant(prevVariant, nextVariant, ...)
           self:remove_element(prevVariant, elements[elementIndex])
           self:add_element(nextVariant, elements[elementIndex])
      end
+end
+
+function FlavorUI_Mouse:dipshit(edefef)
+    for variants, variant_elements in pairs(self.elements) do
+          for _, elements in pairs(variant_elements) do
+               if edefef == elements then
+                    return variants
+               end
+          end
+     end 
 end
 
 return FlavorUI_Mouse

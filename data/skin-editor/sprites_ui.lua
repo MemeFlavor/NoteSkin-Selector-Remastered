@@ -120,14 +120,16 @@ editorInputFieldSaveFile:add()
 
 
 local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
-
+editorSaveDataSprite.onClick = function()
+     debugPrint('yon touched me...')
+end
 
 -- Mouse --
 
 local mouse = FlavorUI_Mouse:new(0.4, {-4,0})
 mouse:add_element('hand', 'editorInputSpriteOffsetX', 'editorInputSpriteOffsetY')
 mouse:add_element('hand', 'editorInputSpriteSizeX', 'editorInputSpriteSizeY')
-mouse:add_element('hand', 'editorInputSpriteFrames', 'editorInputSpriteFile', 'editorInputSpriteSaveFile', 'buttonThingy')
+mouse:add_element('hand', 'editorInputSpriteFrames', 'editorInputSpriteFile', 'editorInputSpriteSaveFile')
 mouse:add_element('hand', 'editorSaveDataSprite')
 mouse:create()
 
@@ -142,14 +144,31 @@ function onUpdate(elapsed)
 
      editorSaveDataSprite:update()
 
+     if editorSaveDataSprite.deactivate == false then
+          
+     end
+
      if keyboardJustPressed('R') then
           editorSaveDataSprite:set_variant('disabled')
           mouse:switch_variant('hand', 'disable', 'editorSaveDataSprite')
      end
-
      if keyboardJustPressed('D') then
           editorSaveDataSprite:set_variant('static')
           mouse:switch_variant('disable', 'hand', 'editorSaveDataSprite')
+     end
+
+     if keyboardJustPressed('T') then
+          editorSaveDataSprite:deactivation()
+          mouse:remove_elementAll('editorSaveDataSprite')
+     end
+     if keyboardJustPressed('F') then
+          editorSaveDataSprite:reactivation()
+
+          if editorSaveDataSprite:get_variant() == 'disabled' then
+               mouse:add_element('disable', 'editorSaveDataSprite')
+          else
+               mouse:add_element('hand', 'editorSaveDataSprite')
+          end
      end
      mouse:update()
 end
