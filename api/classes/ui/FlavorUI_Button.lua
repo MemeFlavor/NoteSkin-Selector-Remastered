@@ -30,16 +30,18 @@ end
 --- Updates the button.
 ---@return nil
 function FlavorUI_Button:update()
-     local hoverMouse = hoverObject(self.tag, 'camHUD')
-     local clickMouse = clickObject(self.tag, 'camHUD')
-     local pressMouse = pressedObject(self.tag, 'camHUD')
+     local hoverMouse   = hoverObject(self.tag, 'camHUD')
+     local clickMouse   = clickObject(self.tag, 'camHUD')
+     local pressMouse   = pressedObject(self.tag, 'camHUD')
      local releaseMouse = releaseObject(self.tag, 'camHUD')
 
      if self.variant == 'disabled' then
           playAnim(self.tag, 'disabled')
+          self:onDisable(self)
 
           if clickMouse == true then
                playSound('cancel', 0.4)
+               self:onClick(self)
           end
           return
      end
@@ -49,7 +51,7 @@ function FlavorUI_Button:update()
           self.variant = 'hovered'
           self.inter_hovered = false
 
-          self:onHover()
+          self:onHover(self)
           return
      end
      if hoverMouse == false and self.inter_hovered == false then
@@ -64,7 +66,7 @@ function FlavorUI_Button:update()
           self.variant = 'pressed'
           self.inter_clicked = false
 
-          self:onClick()
+          self:onClick(self)
           return
      end
      if (releaseMouse) and self.inter_clicked == false then
@@ -72,7 +74,7 @@ function FlavorUI_Button:update()
           self.variant = 'hovered'
           self.inter_clicked = true
 
-          self:onRelease()
+          self:onRelease(self)
           return
      end
 end
@@ -98,18 +100,27 @@ function FlavorUI_Button:get_variant()
 end
 
 --- Triggered when hovering a button.
+---@param this FlavorUI_Button Returns The whole class itself.
 ---@return nil
-function FlavorUI_Button:onHover()
+function FlavorUI_Button:onHover(this)
 end
 
 --- Triggered when clicking a button.
+---@param this FlavorUI_Button Returns The whole class itself.
 ---@return nil
-function FlavorUI_Button:onClick()
+function FlavorUI_Button:onClick(this)
 end
 
----Triggered when the button is released.
+--- Triggered when the button is released.
+---@param this FlavorUI_Button Returns The whole class itself.
 ---@return nil
-function FlavorUI_Button:onRelease()
+function FlavorUI_Button:onRelease(this)
+end
+
+--- Triggered when the button is disabled.
+---@param this FlavorUI_Button Returns The whole class itself.
+---@return nil
+function FlavorUI_Button:onDisable(this)
 end
 
 return FlavorUI_Button

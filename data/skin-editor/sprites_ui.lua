@@ -121,6 +121,7 @@ editorInputFieldSaveFile:add()
 
 local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 
+
 -- Mouse --
 
 local mouse = FlavorUI_Mouse:new(0.4, {-4,0})
