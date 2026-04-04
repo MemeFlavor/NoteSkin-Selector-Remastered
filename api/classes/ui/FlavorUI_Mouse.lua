@@ -106,17 +106,12 @@ end
 ---@vararg any The said element(s) to be interactible.
 ---@return nil
 function FlavorUI_Mouse:add_element(variant, ...)
-     local added = {...}
-     for addIndex = 1, #added do
-          if type(added[addIndex]) == 'string' then
-               self.elements[variant][added[addIndex]] = added[addIndex]
-               goto hii
-          end
+     local elements = {...}
+     for elements_index = 1, #elements do
+          local elements_value = elements[elements_index]
 
-          if added[addIndex].deactivate == false then
-               self.elements[variant][added[addIndex]] = added[addIndex].tag
-          end
-          ::hii::
+          local elements_type = type(elements_value) == 'string' and elements_value or elements_value.tag
+          self.elements[variant][elements_value] = elements_type
      end
 end
 
@@ -125,23 +120,15 @@ end
 ---@vararg any The said element(s) to be remove.
 ---@return nil
 function FlavorUI_Mouse:remove_element(variant, ...)
-     local remove = {...}
-     for removeIndex = 1, #remove do
-          if type(remove[removeIndex]) == 'string' then
-               local removeElement = table.find(self.elements[variant], remove[removeIndex])
-               if removeElement ~= nil then
-                    self.elements[variant][removeElement] = nil
-               end
-               goto hi
-          end
+     local elements = {...}
+     for elements_index = 1, #elements do
+          local elements_value = elements[elements_index]
 
-          if remove[removeIndex].deactivate == false then
-               local removeElement = table.find(variant, remove[removeIndex].tag)
-               if removeElement ~= nil then
-                    self.elements[variant][removeElement] = nil
-               end
+          local elements_type = type(elements_value) == 'string' and elements_value or elements_value.tag
+          local elements_find = table.find(self.elements[variant], elements_type)
+          if elements_find ~= nil then
+               self.elements[variant][elements_find] = nil
           end
-          ::hi::
      end
 end
 
@@ -149,22 +136,16 @@ end
 ---@vararg string The said element(s) to be remove.
 ---@return nil
 function FlavorUI_Mouse:remove_elementAll(...)
-     local remove = {...}
+     local elements = {...}
      for variants, variant_elements in pairs(self.elements) do
-          for removeIndex = 1, #remove do
-               if type(remove[removeIndex]) == 'string' then
-                    local removeElement = table.find(self.elements[variant], remove[removeIndex])
-                    if removeElement ~= nil then
-                         self.elements[variants][removeElement] = nil
-                    end
-                    goto hiiii
-               end
+          for elements_index = 1, #elements do
+               local elements_value = elements[elements_index]
 
-               local removeElement = table.find(variant_elements, remove[removeIndex].tag)
-               if removeElement ~= nil then
-                    self.elements[variants][removeElement] = nil
+               local elements_type = type(elements_value) == 'string' and elements_value or elements_value.tag
+               local elements_find = table.find(variant_elements, elements_type)
+               if elements_find ~= nil then
+                    self.elements[variants][elements_find] = nil
                end
-               ::hiiii::
           end
      end
 end
@@ -185,18 +166,12 @@ end
 ---@return nil
 function FlavorUI_Mouse:switch_variant(prevVariant, nextVariant, ...)
      local elements = {...}
-     for elementIndex = 1, #elements do
-          if type(elements[elementIndex]) == 'string' then
-               self:remove_element(prevVariant, elements[elementIndex])
-               self:add_element(nextVariant, elements[elementIndex])
-               goto hiii
-          end
+     for elements_index = 1, #elements do
+          local elements_value = elements[elements_index]
 
-          if elements[elementIndex].deactivate == false then
-               self:remove_element(prevVariant, elements[elementIndex].tag)
-               self:add_element(nextVariant, elements[elementIndex].tag)
-          end
-          ::hiii::
+          local elements_type = type(elements_value) == 'string' and elements_value or elements_value.tag
+          self:remove_element(prevVariant, elements_type)
+          self:add_element(nextVariant, elements_type)
      end
 end
 
