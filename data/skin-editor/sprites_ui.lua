@@ -150,11 +150,11 @@ function onUpdate(elapsed)
 
      if keyboardJustPressed('R') then
           editorSaveDataSprite:set_variant('disabled')
-          mouse:type('editorSaveDataSprite', 'disable')
+          mouse:set_type('editorSaveDataSprite', 'disable')
      end
      if keyboardJustPressed('D') then
           editorSaveDataSprite:set_variant('static')
-          mouse:type('editorSaveDataSprite', 'hand')
+          mouse:set_type('editorSaveDataSprite', 'hand')
      end
      if keyboardJustPressed('T') then
           editorSaveDataSprite:deactivation()

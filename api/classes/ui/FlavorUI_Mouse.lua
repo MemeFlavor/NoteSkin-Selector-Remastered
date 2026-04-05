@@ -97,45 +97,88 @@ function FlavorUI_Mouse:update()
      end
 end
 
+--- Adds an object element to the mouse, allowing for mouse interactibility.
+---@param element string The said element to be added.
+---@param cursor_type? string The cursor type to be displayed when interacted.
+---@param cursor_mutable? boolean Whether the cursor will change or not when interacted.
+---@return nil
 function FlavorUI_Mouse:add_element(element, cursor_type, cursor_mutable)
      local cursor_type    = cursor_type    == nil and 'hand' or cursor_type
      local cursor_mutable = cursor_mutable == nil and true   or cursor_mutable
      self._elements[element] = {cursor_type = cursor_type, cursor_mutable = cursor_mutable}
 end
 
+--- Removes the object element to the mouse.
+---@param element string The said element to be removed.
+---@return nil
 function FlavorUI_Mouse:remove_element(element)
      table.clear(self._elements[element])
 end
 
-function FlavorUI_Mouse:type(element, type)
+--- Sets the object element's mouse cursor type.
+---@param element string The said element to change its cursor type.
+---@param type string The new cursor type to be set to.
+---@return nil
+function FlavorUI_Mouse:set_type(element, type)
      self._elements[element]['cursor_type'] = type
 end
 
-function FlavorUI_Mouse:reactivate(element)
-     self._elements[element]['cursor_mutable'] = true
+--- Gets the object element's mouse cursor type.
+---@param element string The said element to get its mouse cursor type.
+---@return string
+function FlavorUI_Mouse:get_type(element)
+     return self._elements[element]['cursor_type']
 end
 
+--- Deactivates the mouse interaction tied to that object element.
+---@param element string The said element to deactivate.
+---@return nil
 function FlavorUI_Mouse:deactivate(element)
      self._elements[element]['cursor_mutable'] = false
 end
 
+--- Reactivates the mouse interaction tied to that object element.
+---@param element string The said element to reactivate.
+---@return nil
+function FlavorUI_Mouse:reactivate(element)
+     self._elements[element]['cursor_mutable'] = true
+end
+
+--- Checks whether the mouse interaction tied to that object element is active or not.
+---@param element string The said element to check its active status.
+---@return boolean
 function FlavorUI_Mouse:active(element)
      return self._elements[element]['cursor_mutable']
 end
 
+--- Checks whether the object element exists within the mouse interaction or not.
+---@param element string The said element to check its existence.
+---@return nil
 function FlavorUI_Mouse:exists(element)
      return self._elements[element] ~= nil
 end
 
+--- Triggered when the mouse hovered to the object element.
+---@param this FlavorUI_Mouse The class itself.
+---@return nil
 function FlavorUI_Mouse:onHover(this)
 end
 
+--- Triggered when the mouse clicked to the object element.
+---@param this FlavorUI_Mouse The class itself.
+---@return nil
 function FlavorUI_Mouse:onClick(this)
 end
 
+--- Triggered when the mouse pressed to the object element.
+---@param this FlavorUI_Mouse The class itself.
+---@return nil
 function FlavorUI_Mouse:onPress(this)
 end
 
+--- Triggered when the mouse release to the object element.
+---@param this FlavorUI_Mouse The class itself.
+---@return nil
 function FlavorUI_Mouse:onRelease(this)
 end
 
