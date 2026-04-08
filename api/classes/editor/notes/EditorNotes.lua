@@ -29,11 +29,11 @@ function EditorNotes:create()
           local editorColors    = SKIN_COLORS[editorIndex]
           makeAnimatedLuaSprite(editorTag, self.sprite, editorX, editorY)
           scaleObject(editorTag, 0.65, 0.65)
-          addAnimationByPrefix(editorTag, F"${editorDirection} pressed", F"${editorDirection} pressed", 24, false)
-          addAnimationByPrefix(editorTag, F"${editorDirection} confirm", F"${editorDirection} confirm", 24, false)
-          addAnimationByPrefix(editorTag, F"${editorDirection} colored", editorColors, 24, false)
-          addAnimationByPrefix(editorTag, editorDirection, F"arrow${editorDirection:upper()}", 24, false)
-          playAnim(editorTag, editorDirection, false)
+          addAnimationByPrefix(editorTag, F"${editorDirection} pressed", F"${editorDirection} pressed", 24, true)
+          addAnimationByPrefix(editorTag, F"${editorDirection} confirm", F"${editorDirection} confirm", 24, true)
+          addAnimationByPrefix(editorTag, F"${editorDirection} colored", editorColors, 24, true)
+          addAnimationByPrefix(editorTag, editorDirection, F"arrow${editorDirection:upper()}", 24, true)
+          playAnim(editorTag, editorDirection)
           setObjectCamera(editorTag, 'camHUD')
           addLuaSprite(editorTag)
      end
@@ -70,6 +70,24 @@ function EditorNotes:update_movement()
           self._dir = self._dir + 1
      end
 end
+
+function EditorNotes:set_texture(sprite)
+     for editorIndex = 1, 4 do
+          local editorTag = self.tag..tostring(editorIndex)
+
+          local editorDirection = SKIN_DIRECTIONS[editorIndex]
+          local editorColors    = SKIN_COLORS[editorIndex]
+          loadFrames(editorTag, sprite)
+          addAnimationByPrefix(editorTag, F"${editorDirection} pressed", F"${editorDirection} pressed", 24, true)
+          addAnimationByPrefix(editorTag, F"${editorDirection} confirm", F"${editorDirection} confirm", 24, true)
+          addAnimationByPrefix(editorTag, F"${editorDirection} colored", editorColors, 24, true)
+          addAnimationByPrefix(editorTag, editorDirection, F"arrow${editorDirection:upper()}", 24, true)
+          playAnim(editorTag, editorDirection)
+          setObjectCamera(editorTag, 'camHUD')
+          addLuaSprite(editorTag)
+     end
+end
+
 
 function EditorNotes:_get_tag()
      return F"${self.tag}${self._dir}"

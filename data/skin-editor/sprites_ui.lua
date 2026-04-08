@@ -124,7 +124,7 @@ local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 
 ---
 
-local b = EditorNotesTemplate:new('noteSkins/NOTE_assets-DSides')
+local b = EditorNotesTemplate:new('noteSkins/NOTE_assets')
 b:create()
 
 local a = EditorNotes:new('editorNotes', 'noteSkins/NOTE_assets-DSides')
@@ -158,7 +158,8 @@ function onUpdate(elapsed)
 
      a:update_movement()
      if keyboardJustPressed('P') then
-          b:set_texture('noteSkins/NOTE_assets-Shiny')
+          a:set_texture('noteSkins/NOTE_assets-Rush')
+          --b:set_texture('noteSkins/NOTE_assets-Rush')
      end
      
 
