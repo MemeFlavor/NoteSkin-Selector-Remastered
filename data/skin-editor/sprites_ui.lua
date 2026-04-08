@@ -123,7 +123,6 @@ local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 ---
 
 local a = EditorNotes:new('noteSkins/NOTE_assets-DSides')
-a:template()
 a:create()
 
 -- Mouse --

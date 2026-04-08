@@ -32,27 +32,6 @@ function EditorNotes:create()
      end
 end
 
-function EditorNotes:template()
-     for templateIndex = 1, 4 do
-          local templateTag = F"editorNotesTemplate${templateIndex}"
-          local templateX = 600 + (130*(templateIndex-1))
-          local templateY = 150
-
-          local templateDirection = SKIN_DIRECTIONS[templateIndex]
-          local templateColors    = SKIN_COLORS[templateIndex]
-          makeAnimatedLuaSprite(templateTag, 'noteSkins/NOTE_assets', templateX, templateY)
-          scaleObject(templateTag, 0.65, 0.65)
-          addAnimationByPrefix(templateTag, F"${templateDirection} pressed", F"${templateDirection} pressed", 24, false)
-          addAnimationByPrefix(templateTag, F"${templateDirection} confirm", F"${templateDirection} confirm", 24, false)
-          addAnimationByPrefix(templateTag, F"${templateDirection} colored", templateColors, 24, false)
-          addAnimationByPrefix(templateTag, templateDirection, F"arrow${templateDirection:upper()}", 24, false)
-          playAnim(templateTag, templateDirection, false)
-          setProperty(F"${templateTag}.alpha", 0.5)
-          setObjectCamera(templateTag, 'camHUD')
-          addLuaSprite(templateTag)
-     end
-end
-
 function EditorNotes:update()
 end
 

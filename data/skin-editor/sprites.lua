@@ -176,71 +176,25 @@ setObjectCamera('editorSaveDataSprite', 'camHUD')
 setProperty('editorSaveDataSprite.antialiasing', false)
 addLuaSprite('editorSaveDataSprite')
 
-local doodooX = 600
-local doodooY = 150
+-- Templates --
 
---[[ makeAnimatedLuaSprite('doodoo1', 'noteSkins/NOTE_assets', doodooX, doodooY)
-scaleObject('doodoo1', 0.65, 0.65)
-addAnimationByPrefix('doodoo1', 'left confirm', 'left confirm', 24, false)
-addAnimationByPrefix('doodoo1', 'left pressed', 'left pressed', 24, false)
-addAnimationByPrefix('doodoo1', 'left colored', 'purple', 24, false)
-addAnimationByPrefix('doodoo1', 'left', 'arrowLEFT', 24, false)
-playAnim('doodoo1', 'left', false)
-setObjectCamera('doodoo1', 'camHUD')
-addLuaSprite('doodoo1')
+local SKIN_DIRECTIONS = {'left', 'down', 'up', 'right'}
+local SKIN_COLORS     = {'purple0', 'blue0', 'green0', 'red0'}
+for templateIndex = 1, 4 do
+     local templateTag = F"editorNotesTemplate${templateIndex}"
+     local templateX = 600 + (130*(templateIndex-1))
+     local templateY = 150
 
-makeAnimatedLuaSprite('doodoo2', 'noteSkins/NOTE_assets', doodooX+(130), doodooY)
-scaleObject('doodoo2', 0.65, 0.65)
-addAnimationByPrefix('doodoo2', 'down confirm', 'down confirm', 24, false)
-addAnimationByPrefix('doodoo2', 'down pressed', 'down pressed', 24, false)
-addAnimationByPrefix('doodoo2', 'down colored', 'blue', 24, false)
-addAnimationByPrefix('doodoo2', 'down', 'arrowDOWN', 24, false)
-playAnim('doodoo2', 'down', false)
-setObjectCamera('doodoo2', 'camHUD')
-addLuaSprite('doodoo2')
-
-makeAnimatedLuaSprite('doodoo3', 'noteSkins/NOTE_assets', doodooX+(130*2), doodooY)
-scaleObject('doodoo3', 0.65, 0.65)
-addAnimationByPrefix('doodoo3', 'up confirm', 'up confirm', 24, false)
-addAnimationByPrefix('doodoo3', 'up pressed', 'up pressed', 24, false)
-addAnimationByPrefix('doodoo3', 'up colored', 'green', 24, false)
-addAnimationByPrefix('doodoo3', 'up', 'arrowUP', 24, false)
-playAnim('doodoo3', 'up', false)
-setObjectCamera('doodoo3', 'camHUD')
-addLuaSprite('doodoo3')
-
-makeAnimatedLuaSprite('doodoo4', 'noteSkins/NOTE_assets', doodooX+(130*3), doodooY)
-scaleObject('doodoo4', 0.65, 0.65)
-addAnimationByPrefix('doodoo4', 'right confirm', 'right confirm', 24, false)
-addAnimationByPrefix('doodoo4', 'right pressed', 'right pressed', 24, false)
-addAnimationByPrefix('doodoo4', 'right colored', 'red', 24, false)
-addAnimationByPrefix('doodoo4', 'right', 'arrowRIGHT', 24, false)
-playAnim('doodoo4', 'right', false)
-setObjectCamera('doodoo4', 'camHUD')
-addLuaSprite('doodoo4') ]]
-
----
-
---[[ makeAnimatedLuaSprite('hahaha1', 'ui/flavorui/button/button_display', 500, 300)
-addAnimationByPrefix('hahaha1', 'static', 'static')
-addAnimationByPrefix('hahaha1', 'selected', 'selected')
-addAnimationByPrefix('hahaha1', 'disabled', 'disabled')
-addAnimationByPrefix('hahaha1', 'hovered', 'hovered-static')
-addAnimationByPrefix('hahaha1', 'pressed', 'hovered-pressed')
-playAnim('hahaha1', 'static', true)
-scaleObject('hahaha1', 0.8, 0.8)
-setObjectCamera('hahaha1', 'camHUD')
-setProperty('hahaha1.antialiasing', false)
-addLuaSprite('hahaha1')
-
-makeAnimatedLuaSprite('hahaha2', 'ui/flavorui/button/button_display', 650, 300)
-addAnimationByPrefix('hahaha2', 'static', 'static')
-addAnimationByPrefix('hahaha2', 'selected', 'selected')
-addAnimationByPrefix('hahaha2', 'disabled', 'disabled')
-addAnimationByPrefix('hahaha2', 'hovered', 'hovered-static')
-addAnimationByPrefix('hahaha2', 'pressed', 'hovered-pressed')
-playAnim('hahaha2', 'static', true)
-scaleObject('hahaha2', 0.8, 0.8)
-setObjectCamera('hahaha2', 'camHUD')
-setProperty('hahaha2.antialiasing', false)
-addLuaSprite('hahaha2') ]]
+     local templateDirection = SKIN_DIRECTIONS[templateIndex]
+     local templateColors    = SKIN_COLORS[templateIndex]
+     makeAnimatedLuaSprite(templateTag, 'noteSkins/NOTE_assets', templateX, templateY)
+     scaleObject(templateTag, 0.65, 0.65)
+     addAnimationByPrefix(templateTag, F"${templateDirection} pressed", F"${templateDirection} pressed", 24, false)
+     addAnimationByPrefix(templateTag, F"${templateDirection} confirm", F"${templateDirection} confirm", 24, false)
+     addAnimationByPrefix(templateTag, F"${templateDirection} colored", templateColors, 24, false)
+     addAnimationByPrefix(templateTag, templateDirection, F"arrow${templateDirection:upper()}", 24, false)
+     playAnim(templateTag, templateDirection, false)
+     setProperty(F"${templateTag}.alpha", 0.5)
+     setObjectCamera(templateTag, 'camHUD')
+     addLuaSprite(templateTag)
+end
