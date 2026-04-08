@@ -4,6 +4,8 @@ local F      = require 'mods.NoteSkin Selector Remastered.api.libraries.f-string
 local string = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.string'
 local math   = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
 
+local EditorNotes = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotes'
+
 local SKIN_EDITOR_BG_WIDTH  = getPropertyFromClass('flixel.FlxG', 'width')
 local SKIN_EDITOR_BG_HEIGHT = getPropertyFromClass('flixel.FlxG', 'height')
 
@@ -175,26 +177,3 @@ playAnim('editorSaveDataSprite', 'static')
 setObjectCamera('editorSaveDataSprite', 'camHUD')
 setProperty('editorSaveDataSprite.antialiasing', false)
 addLuaSprite('editorSaveDataSprite')
-
--- Templates --
-
-local SKIN_DIRECTIONS = {'left', 'down', 'up', 'right'}
-local SKIN_COLORS     = {'purple0', 'blue0', 'green0', 'red0'}
-for templateIndex = 1, 4 do
-     local templateTag = F"editorNotesTemplate${templateIndex}"
-     local templateX = 600 + (130*(templateIndex-1))
-     local templateY = 150
-
-     local templateDirection = SKIN_DIRECTIONS[templateIndex]
-     local templateColors    = SKIN_COLORS[templateIndex]
-     makeAnimatedLuaSprite(templateTag, 'noteSkins/NOTE_assets', templateX, templateY)
-     scaleObject(templateTag, 0.65, 0.65)
-     addAnimationByPrefix(templateTag, F"${templateDirection} pressed", F"${templateDirection} pressed", 24, false)
-     addAnimationByPrefix(templateTag, F"${templateDirection} confirm", F"${templateDirection} confirm", 24, false)
-     addAnimationByPrefix(templateTag, F"${templateDirection} colored", templateColors, 24, false)
-     addAnimationByPrefix(templateTag, templateDirection, F"arrow${templateDirection:upper()}", 24, false)
-     playAnim(templateTag, templateDirection, false)
-     setProperty(F"${templateTag}.alpha", 0.5)
-     setObjectCamera(templateTag, 'camHUD')
-     addLuaSprite(templateTag)
-end

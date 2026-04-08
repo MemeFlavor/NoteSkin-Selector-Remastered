@@ -1,10 +1,9 @@
-local F = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local F    = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
 local math = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
 
 local SKIN_DIRECTIONS = {'left', 'down', 'up', 'right'}
 local SKIN_COLORS     = {'purple0', 'blue0', 'green0', 'red0'}
-
-local BORDERS = {minX = 420, maxX = 1174, minY = 1, maxY = 617}
+local BORDERS         = {minX = 420, maxX = 1174, minY = 1, maxY = 617}
 
 local EditorNotes = {}
 
@@ -46,22 +45,21 @@ function EditorNotes:update_movement()
      if keyboardPressed('S') then self._dirY = self._dirY + 1 end
      if keyboardPressed('W') then self._dirY = self._dirY - 1 end
 
-     local giX = F"${self.tag}${self._dir}"
+     local dirTag    = self:_get_tag()
+     local dirLength = math.sqrt(self._dirX^2 + self._dirY^2)
+     if dirLength > 0 then
+          self._dirX, self._dirY = self._dirX / dirLength, self._dirY / dirLength
 
-     local length = math.sqrt(self._dirX^2 + self._dirY^2)
-     if length > 0 then
-          self._dirX, self._dirY = self._dirX / length, self._dirY / length
-
-          if getProperty(F"${giX}.x") < BORDERS.minX then setProperty(F"${giX}.x", BORDERS.minX) end
-          if getProperty(F"${giX}.x") > BORDERS.maxX then setProperty(F"${giX}.x", BORDERS.maxX) end
-          if getProperty(F"${giX}.y") < BORDERS.minY then setProperty(F"${giX}.y", BORDERS.minY) end
-          if getProperty(F"${giX}.y") > BORDERS.maxY then setProperty(F"${giX}.y", BORDERS.maxY) end
+          if getProperty(F"${dirTag}.x") < BORDERS.minX then setProperty(F"${dirTag}.x", BORDERS.minX) end
+          if getProperty(F"${dirTag}.x") > BORDERS.maxX then setProperty(F"${dirTag}.x", BORDERS.maxX) end
+          if getProperty(F"${dirTag}.y") < BORDERS.minY then setProperty(F"${dirTag}.y", BORDERS.minY) end
+          if getProperty(F"${dirTag}.y") > BORDERS.maxY then setProperty(F"${dirTag}.y", BORDERS.maxY) end
 
           if keyboardPressed('D') or keyboardPressed('A') and not (keyboardPressed('D') and keyboardPressed('A')) then
-               setProperty(F"${giX}.x", getProperty(F"${giX}.x") + self._dirX*self._dirA)
+               setProperty(F"${dirTag}.x", getProperty(F"${dirTag}.x") + self._dirX*self._dirA)
           end
           if keyboardPressed('S') or keyboardPressed('W') and not (keyboardPressed('S') and keyboardPressed('W')) then
-               setProperty(F"${giX}.y", getProperty(F"${giX}.y") + self._dirY*self._dirA)
+               setProperty(F"${dirTag}.y", getProperty(F"${dirTag}.y") + self._dirY*self._dirA)
           end
      end
 
@@ -73,7 +71,8 @@ function EditorNotes:update_movement()
      end
 end
 
-function EditorNotes:update()
+function EditorNotes:_get_tag()
+     return F"${self.tag}${self._dir}"
 end
 
 function EditorNotes:doodoodX()

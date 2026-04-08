@@ -1,7 +1,9 @@
 local FlavorUI_TextField = require 'mods.NoteSkin Selector Remastered.api.classes.ui.FlavorUI_TextField'
 local FlavorUI_Button    = require 'mods.NoteSkin Selector Remastered.api.classes.ui.FlavorUI_Button'
 local FlavorUI_Mouse     = require 'mods.NoteSkin Selector Remastered.api.classes.ui.FlavorUI_Mouse'
-local EditorNotes        = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotes'
+
+local EditorNotes         = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotes'
+local EditorNotesTemplate = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotesTemplate'
 
 local F = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
 
@@ -122,6 +124,9 @@ local editorSaveDataSprite = FlavorUI_Button:new('editorSaveDataSprite')
 
 ---
 
+local b = EditorNotesTemplate:new('noteSkins/NOTE_assets-DSides')
+b:create()
+
 local a = EditorNotes:new('editorNotes', 'noteSkins/NOTE_assets-DSides')
 a:create()
 
@@ -152,10 +157,14 @@ function onUpdate(elapsed)
      editorSaveDataSprite:update()
 
      a:update_movement()
+     if keyboardJustPressed('P') then
+          b:set_texture('noteSkins/NOTE_assets-Shiny')
+     end
+     
 
      mouse:update()
 
-     if keyboardJustPressed('R') then
+     --[[ if keyboardJustPressed('R') then
           editorSaveDataSprite:set_variant('disabled')
           mouse:set_type('editorSaveDataSprite', 'disable')
      end
@@ -170,5 +179,5 @@ function onUpdate(elapsed)
      if keyboardJustPressed('F') then
           editorSaveDataSprite:reactivation()
           mouse:reactivate('editorSaveDataSprite')
-     end
+     end ]]
 end
