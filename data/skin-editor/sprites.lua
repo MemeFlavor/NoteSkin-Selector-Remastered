@@ -179,7 +179,7 @@ addLuaSprite('editorSaveDataSprite')
 local doodooX = 600
 local doodooY = 150
 
-makeAnimatedLuaSprite('doodoo1', 'noteSkins/NOTE_assets', doodooX, doodooY)
+--[[ makeAnimatedLuaSprite('doodoo1', 'noteSkins/NOTE_assets', doodooX, doodooY)
 scaleObject('doodoo1', 0.65, 0.65)
 addAnimationByPrefix('doodoo1', 'left confirm', 'left confirm', 24, false)
 addAnimationByPrefix('doodoo1', 'left pressed', 'left pressed', 24, false)
@@ -217,7 +217,7 @@ addAnimationByPrefix('doodoo4', 'right colored', 'red', 24, false)
 addAnimationByPrefix('doodoo4', 'right', 'arrowRIGHT', 24, false)
 playAnim('doodoo4', 'right', false)
 setObjectCamera('doodoo4', 'camHUD')
-addLuaSprite('doodoo4')
+addLuaSprite('doodoo4') ]]
 
 ---
 
