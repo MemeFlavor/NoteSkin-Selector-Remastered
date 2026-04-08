@@ -29,6 +29,7 @@ function EditorNotesTemplate:create()
           playAnim(templateTag, templateDirection, false)
           setProperty(F"${templateTag}.alpha", 0.5)
           setObjectCamera(templateTag, 'camHUD')
+          --setObjectOrder(templateTag, 100)
           addLuaSprite(templateTag)
      end
 end
@@ -45,6 +46,13 @@ function EditorNotesTemplate:set_texture(sprite)
           addAnimationByPrefix(templateTag, F"${templateDirection} colored", templateColors, 24, true)
           addAnimationByPrefix(templateTag, templateDirection, F"arrow${templateDirection:upper()}", 24, true)
           playAnim(templateTag, templateDirection)
+     end
+end
+
+function EditorNotesTemplate:set_order(value)
+     for templateIndex = 1, 4 do
+          local templateTag = F"editorNotesTemplate${templateIndex}"
+          setObjectOrder(templateTag, value)
      end
 end
 

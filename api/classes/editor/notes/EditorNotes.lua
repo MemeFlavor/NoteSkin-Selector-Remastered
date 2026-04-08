@@ -80,7 +80,7 @@ end
 
 function EditorNotes:set_texture(sprite)
      for editorIndex = 1, 4 do
-          local editorTag = self.tag..tostring(editorIndex)
+          local editorTag = self:_get_tag()
 
           local editorDirection = SKIN_DIRECTIONS[editorIndex]
           local editorColors    = SKIN_COLORS[editorIndex]
@@ -94,7 +94,6 @@ function EditorNotes:set_texture(sprite)
           addLuaSprite(editorTag)
      end
 end
-
 
 function EditorNotes:_get_tag()
      return F"${self.tag}${self._dir}"

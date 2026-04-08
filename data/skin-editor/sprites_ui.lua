@@ -157,13 +157,20 @@ function onUpdate(elapsed)
      editorSaveDataSprite:update()
 
      a:update_movement()
-     if keyboardJustPressed('P') then
+     mouse:update()
+
+     -- Main Stuff --
+
+     if keyboardJustPressed('O') then
           a:set_texture('noteSkins/NOTE_assets-Rush')
           --b:set_texture('noteSkins/NOTE_assets-Rush')
      end
-     
-
-     mouse:update()
+     if keyboardJustPressed('Z') then
+          b:set_order(100)
+     end
+     if keyboardJustPressed('X') then
+          b:set_order(3)
+     end
 
      --[[ if keyboardJustPressed('R') then
           editorSaveDataSprite:set_variant('disabled')
