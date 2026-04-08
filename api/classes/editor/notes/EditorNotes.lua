@@ -40,10 +40,10 @@ function EditorNotes:create()
 end
 
 function EditorNotes:update_movement()
-     if keyboardPressed('D') then self._dirX = self._dirX + 1 end
-     if keyboardPressed('A') then self._dirX = self._dirX - 1 end
-     if keyboardPressed('S') then self._dirY = self._dirY + 1 end
-     if keyboardPressed('W') then self._dirY = self._dirY - 1 end
+     if keyboardPressed('D') or keyboardPressed('RIGHT') then self._dirX = self._dirX + 1 end
+     if keyboardPressed('A') or keyboardPressed('LEFT')  then self._dirX = self._dirX - 1 end
+     if keyboardPressed('S') or keyboardPressed('DOWN')  then self._dirY = self._dirY + 1 end
+     if keyboardPressed('W') or keyboardPressed('UP')    then self._dirY = self._dirY - 1 end
 
      local dirTag    = self:_get_tag()
      local dirLength = math.sqrt(self._dirX^2 + self._dirY^2)
@@ -60,6 +60,13 @@ function EditorNotes:update_movement()
           end
           if keyboardPressed('S') or keyboardPressed('W') and not (keyboardPressed('S') and keyboardPressed('W')) then
                setProperty(F"${dirTag}.y", getProperty(F"${dirTag}.y") + self._dirY*self._dirA)
+          end
+
+          if keyboardPressed('RIGHT') or keyboardPressed('LEFT') and not (keyboardPressed('RIGHT') and keyboardPressed('LEFT')) then
+               setProperty(F"${dirTag}.x", getProperty(F"${dirTag}.x") + self._dirX*self._dirA/6)
+          end
+          if keyboardPressed('DOWN') or keyboardPressed('UP') and not (keyboardPressed('DOWN') and keyboardPressed('UP')) then
+               setProperty(F"${dirTag}.y", getProperty(F"${dirTag}.y") + self._dirY*self._dirA/6)
           end
      end
 
@@ -91,13 +98,6 @@ end
 
 function EditorNotes:_get_tag()
      return F"${self.tag}${self._dir}"
-end
-
-function EditorNotes:doodoodX()
-     local dir = dir
-     local giX = F"${self.tag}${dir}"
-     return math.round(getProperty(F"${giX}.x"), 2)
-
 end
 
 return EditorNotes
