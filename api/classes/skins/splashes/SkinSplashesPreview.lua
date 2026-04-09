@@ -11,8 +11,8 @@ local global    = require 'mods.NoteSkin Selector Remastered.api.modules.global'
 local DIRECTION        = global.DIRECTION
 local MAX_NUMBER_CHUNK = global.MAX_NUMBER_CHUNK
 
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
-local keyboardJustConditionReleased = funkinlua.keyboardJustConditionReleased
+local kbCondJustPressed  = funkinlua.kbCondJustPressed
+local kbCondJustReleased = funkinlua.kbCondJustReleased
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
@@ -222,8 +222,8 @@ function SkinSplashesPreview:preview_animation()
                end
           end
      end
-     local conditionPressedLeft  = keyboardJustConditionPressed('Z', not getVar('skinSearchInputFocus'))
-     local conditionPressedRight = keyboardJustConditionPressed('X', not getVar('skinSearchInputFocus'))
+     local conditionPressedLeft  = kbCondJustPressed('Z', not getVar('skinSearchInputFocus'))
+     local conditionPressedRight = kbCondJustPressed('X', not getVar('skinSearchInputFocus'))
      local currentPreviewMetadataPrev = currentPreviewSkinData(self.TOTAL_SKIN_METAOBJ_PREVIEW)
 
      --- Same as the previous function above, helper function; this retreives mainly its animation from its JSON.
@@ -277,11 +277,11 @@ function SkinSplashesPreview:preview_animation()
                setProperty(F"${previewSkinGroupTag}.visible", false)
           end
           if previewSkinObjectIsMissing() == false then
-               if keyboardJustConditionPressed(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
+               if kbCondJustPressed(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
                     playAnim(previewSkinGroupTag, metadataPreviewAnimations[previewSkinAnimations]['name'], true)
                     setProperty(F"${previewSkinGroupTag}.visible", true)
                end
-               if keyboardJustConditionReleased(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
+               if kbCondJustReleased(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
                     playAnim(previewSkinGroupTag, metadataPreviewAnimations['note_splash1']['name'], true)
                     setProperty(F"${previewSkinGroupTag}.visible", false)
                end

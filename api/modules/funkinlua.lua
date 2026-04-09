@@ -43,19 +43,19 @@ function funkinlua.keyboardJustDoubleReleased(key)
      end
 end
 
-function funkinlua.keyboardJustConditionPressed(key, condition)
+function funkinlua.kbCondJustPressed(key, condition)
      if condition and keyboardJustPressed(key:upper()) then
           return true
      end
 end
 
-function funkinlua.keyboardJustConditionPress(key, condition)
-     if condition and keyboardJustPress(key:upper()) then
+function funkinlua.kbCondPressed(key, condition)
+     if condition and keyboardPressed(key:upper()) then
           return true
      end
 end
 
-function funkinlua.keyboardJustConditionReleased(key, condition)
+function funkinlua.kbCondJustReleased(key, condition)
      if condition and keyboardReleased(key:upper()) then
           return true
      end

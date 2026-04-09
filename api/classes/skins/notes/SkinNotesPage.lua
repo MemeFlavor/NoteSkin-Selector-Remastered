@@ -9,9 +9,9 @@ local global    = require 'mods.NoteSkin Selector Remastered.api.modules.global'
 
 local MAX_NUMBER_CHUNK = global.MAX_NUMBER_CHUNK
 
-local clickObject                   = funkinlua.clickObject
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
-local keyboardJustConditionReleased = funkinlua.keyboardJustConditionReleased
+local clickObject        = funkinlua.clickObject
+local kbCondJustPressed  = funkinlua.kbCondJustPressed
+local kbCondJustReleased = funkinlua.kbCondJustReleased
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
@@ -167,8 +167,8 @@ function SkinNotesPage:page_moved()
      if self.SCROLLBAR_TRACK_THUMB_PRESSED == true then 
           return 
      end
-     local gameControlPressedDown = keyboardJustConditionPressed('E', getVar('skinSearchInputFocus') == false)
-     local gameControlPressedUp   = keyboardJustConditionPressed('Q', getVar('skinSearchInputFocus') == false)
+     local gameControlPressedDown = kbCondJustPressed('E', getVar('skinSearchInputFocus') == false)
+     local gameControlPressedUp   = kbCondJustPressed('Q', getVar('skinSearchInputFocus') == false)
 
      local SEARCH_INPUT_TEXT_CONTENT = getVar('SEARCH_INPUT_TEXT_CONTENT') or ''
      if #SEARCH_INPUT_TEXT_CONTENT > 0 then

@@ -5,7 +5,10 @@ local FlavorUI_Mouse     = require 'mods.NoteSkin Selector Remastered.api.classe
 local EditorNotes         = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotes'
 local EditorNotesTemplate = require 'mods.NoteSkin Selector Remastered.api.classes.editor.notes.EditorNotesTemplate'
 
-local F = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
+
+local kbCondJustPressed = funkinlua.kbCondJustPressed
 
 local calcPosX = function(x, offsetX) return x + offsetX          end
 local calcPosY = function(y, offsetY) return (y - 5.72) + offsetY end
@@ -155,37 +158,21 @@ function onUpdate(elapsed)
      editorInputFieldFiles:update()
      editorInputFieldSaveFile:update()
      editorSaveDataSprite:update()
-
-     a:update_movement()
      mouse:update()
 
+     local FlavorUI_TextField_Focus = getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil
+     
+     a:update_movement()
+     
      -- Main Stuff --
 
-     if keyboardJustPressed('O') then
-          a:set_texture('noteSkins/NOTE_assets-Rush')
-          --b:set_texture('noteSkins/NOTE_assets-Rush')
+     if kbCondJustPressed('ENTER', not FlavorUI_TextField_Focus)  then
+          a:set_texture('noteskins/'..editorInputFieldFiles:entered())
      end
-     if keyboardJustPressed('Z') then
+     if kbCondJustPressed('Z', FlavorUI_TextField_Focus) then
           b:set_order(100)
      end
-     if keyboardJustPressed('X') then
+     if kbCondJustPressed('X', FlavorUI_TextField_Focus) then
           b:set_order(3)
      end
-
-     --[[ if keyboardJustPressed('R') then
-          editorSaveDataSprite:set_variant('disabled')
-          mouse:set_type('editorSaveDataSprite', 'disable')
-     end
-     if keyboardJustPressed('D') then
-          editorSaveDataSprite:set_variant('static')
-          mouse:set_type('editorSaveDataSprite', 'hand')
-     end
-     if keyboardJustPressed('T') then
-          editorSaveDataSprite:deactivation()
-          mouse:deactivate('editorSaveDataSprite')
-     end
-     if keyboardJustPressed('F') then
-          editorSaveDataSprite:reactivation()
-          mouse:reactivate('editorSaveDataSprite')
-     end ]]
 end

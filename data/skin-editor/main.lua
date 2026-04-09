@@ -6,7 +6,7 @@ local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-str
 local string    = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.string'
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
 
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
+local kbCondJustPressed = funkinlua.kbCondJustPressed
 
 function onCreatePost()
      for _,scripts in pairs(getRunningScripts()) do
@@ -18,8 +18,9 @@ function onCreatePost()
 end
 
 function onUpdatePost(elapsed)
-     if keyboardJustConditionPressed('ONE',    getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil) then restartSong(true) end
-     if keyboardJustConditionPressed('ESCAPE', getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil) then exitSong()        end
+     local g = getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn')
+     if kbCondJustPressed('ONE',    g == nil) then restartSong(true) end
+     if kbCondJustPressed('ESCAPE', g == nil) then exitSong()        end
 end
 
 local allowCountdown = false;

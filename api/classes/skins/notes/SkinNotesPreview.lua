@@ -11,10 +11,10 @@ local global    = require 'mods.NoteSkin Selector Remastered.api.modules.global'
 local DIRECTION        = global.DIRECTION
 local MAX_NUMBER_CHUNK = global.MAX_NUMBER_CHUNK
 
-local hoverObject                   = funkinlua.hoverObject
-local clickObject                   = funkinlua.clickObject
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
-local keyboardJustConditionReleased = funkinlua.keyboardJustConditionReleased
+local hoverObject        = funkinlua.hoverObject
+local clickObject        = funkinlua.clickObject
+local kbCondJustPressed  = funkinlua.kbCondJustPressed
+local kbCondJustReleased = funkinlua.kbCondJustReleased
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
@@ -190,8 +190,8 @@ function SkinNotesPreview:preview_animation()
                end
           end
      end
-     local conditionPressedLeft  = keyboardJustConditionPressed('Z', not getVar('skinSearchInputFocus'))
-     local conditionPressedRight = keyboardJustConditionPressed('X', not getVar('skinSearchInputFocus'))
+     local conditionPressedLeft  = kbCondJustPressed('Z', not getVar('skinSearchInputFocus'))
+     local conditionPressedRight = kbCondJustPressed('X', not getVar('skinSearchInputFocus'))
      local currentPreviewMetadataPrev = currentPreviewSkinData(self.TOTAL_SKIN_METAOBJ_PREVIEW)
 
      --- Same as the previous function above, helper function; this retreives mainly its animation from its JSON.
@@ -263,10 +263,10 @@ function SkinNotesPreview:preview_animation()
           end
 
           if previewSkinObjectIsMissing() == false then
-               if keyboardJustConditionPressed(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
+               if kbCondJustPressed(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
                     playAnim(previewSkinGroupTag, metadataPreviewAnimations[previewSkinAnimations]['name'])
                end
-               if keyboardJustConditionReleased(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
+               if kbCondJustReleased(getKeyBinds(strumIndex), not getVar('skinSearchInputFocus')) then
                     playAnim(previewSkinGroupTag, metadataPreviewAnimations['strums']['name'])
                end
           end
@@ -288,8 +288,8 @@ local PREVIEW_SELECTION_TOGGLE = false -- * Important, but ignore this lmao
 ---@private
 ---@return nil
 function SkinNotesPreview:preview_selection_moved()
-     local conditionPressedLeft  = keyboardJustConditionPressed('Z', not getVar('skinSearchInputFocus'))
-     local conditionPressedRight = keyboardJustConditionPressed('X', not getVar('skinSearchInputFocus'))
+     local conditionPressedLeft  = kbCondJustPressed('Z', not getVar('skinSearchInputFocus'))
+     local conditionPressedRight = kbCondJustPressed('X', not getVar('skinSearchInputFocus'))
 
      local previewAnimationMinIndex = self.PREVIEW_SKIN_OBJECT_INDEX > 1
      local previewAnimationMaxIndex = self.PREVIEW_SKIN_OBJECT_INDEX < #self.PREVIEW_SKIN_OBJECT_ANIMS

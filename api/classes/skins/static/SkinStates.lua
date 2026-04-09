@@ -6,7 +6,7 @@ local table     = require 'mods.NoteSkin Selector Remastered.api.libraries.stand
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
 local states    = require 'mods.NoteSkin Selector Remastered.api.modules.states'
 
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
+local kbCondJustPressed = funkinlua.kbCondJustPressed
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 
@@ -60,8 +60,8 @@ function SkinStates:switch()
           return
      end
 
-     local conditionPressedSwitchLeft  = keyboardJustConditionPressed('O', not getVar('skinSearchInputFocus'))
-     local conditionPressedSwitchRight = keyboardJustConditionPressed('P', not getVar('skinSearchInputFocus'))
+     local conditionPressedSwitchLeft  = kbCondJustPressed('O', not getVar('skinSearchInputFocus'))
+     local conditionPressedSwitchRight = kbCondJustPressed('P', not getVar('skinSearchInputFocus'))
      if not (conditionPressedSwitchLeft or conditionPressedSwitchRight) then 
           return 
      end

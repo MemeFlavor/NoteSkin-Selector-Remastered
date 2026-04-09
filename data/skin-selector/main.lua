@@ -6,7 +6,7 @@ local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-str
 local string    = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.string'
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
 
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
+local kbCondJustPressed = funkinlua.kbCondJustPressed
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 function onCreatePost()
@@ -29,14 +29,14 @@ local function mouseSetUpdatingPosition(mouseTag, offsetX, offsetY)
 end
 
 function onUpdatePost(elapsed)
-     if keyboardJustConditionPressed('ONE',    not getVar('skinSearchInputFocus')) then restartSong(true) end
-     if keyboardJustConditionPressed('ESCAPE', not getVar('skinSearchInputFocus')) then exitSong()        end
+     if kbCondJustPressed('ONE',    not getVar('skinSearchInputFocus')) then restartSong(true) end
+     if kbCondJustPressed('ESCAPE', not getVar('skinSearchInputFocus')) then exitSong()        end
      if mouseClicked('left')  then playSound('clicks/clickDown', 0.5) end
      if mouseReleased('left') then playSound('clicks/clickUp', 0.5)   end
 
      mouseSetUpdatingPosition('mouseTexture', -4, 0)
      mouseSetUpdatingPosition('mouseSkinToolTip', 35, 12)
-     if keyboardJustConditionPressed('ENTER', not getVar('skinSearchInputFocus')) and songName == 'Skin Selector' then
+     if kbCondJustPressed('ENTER', not getVar('skinSearchInputFocus')) and songName == 'Skin Selector' then
           local GAME_SONG_NAME        = NoteSkinSelector:get('GAME_SONG_NAME', 'GENERAL')
           local GAME_DIFFICULTY_ID    = NoteSkinSelector:get('GAME_DIFFICULTY_ID', 'GENERAL')
           local GAME_DIFFICULTY_LISTS = NoteSkinSelector:get('GAME_DIFFICULTY_LISTS', 'GENERAL')

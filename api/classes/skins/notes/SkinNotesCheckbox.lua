@@ -10,11 +10,11 @@ local global    = require 'mods.NoteSkin Selector Remastered.api.modules.global'
 
 local CHARACTERS = global.CHARACTERS
 
-local hoverObject                   = funkinlua.hoverObject
-local clickObject                   = funkinlua.clickObject
-local keyboardJustConditionPressed  = funkinlua.keyboardJustConditionPressed
-local keyboardJustConditionPress    = funkinlua.keyboardJustConditionPress
-local keyboardJustConditionReleased = funkinlua.keyboardJustConditionReleased
+local hoverObject        = funkinlua.hoverObject
+local clickObject        = funkinlua.clickObject
+local kbCondJustPressed  = funkinlua.kbCondJustPressed
+local kbCondPressed      = funkinlua.kbCondPressed
+local kbCondJustReleased = funkinlua.kbCondJustReleased
 
 local NoteSkinSelector = SkinSaves:new('noteskin_selector', 'NoteSkin Selector')
 

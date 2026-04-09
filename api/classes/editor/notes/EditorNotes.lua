@@ -1,5 +1,8 @@
-local F    = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
-local math = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
+local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local math      = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
+local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
+
+local kbCondPressed = funkinlua.kbCondPressed
 
 local SKIN_DIRECTIONS = {'left', 'down', 'up', 'right'}
 local SKIN_COLORS     = {'purple0', 'blue0', 'green0', 'red0'}
@@ -16,6 +19,7 @@ function EditorNotes:new(tag, sprite)
      self._dirX = 0
      self._dirY = 0
      self._dirA = 1
+
      return self
 end
 
@@ -40,10 +44,10 @@ function EditorNotes:create()
 end
 
 function EditorNotes:update_movement()
-     if keyboardPressed('D') or keyboardPressed('RIGHT') then self._dirX = self._dirX + 1 end
-     if keyboardPressed('A') or keyboardPressed('LEFT')  then self._dirX = self._dirX - 1 end
-     if keyboardPressed('S') or keyboardPressed('DOWN')  then self._dirY = self._dirY + 1 end
-     if keyboardPressed('W') or keyboardPressed('UP')    then self._dirY = self._dirY - 1 end
+     if kbCondPressed('D', self:_get_focused()) or kbCondPressed('RIGHT', self:_get_focused()) then self._dirX = self._dirX + 1 end
+     if kbCondPressed('A', self:_get_focused()) or kbCondPressed('LEFT', self:_get_focused())  then self._dirX = self._dirX - 1 end
+     if kbCondPressed('S', self:_get_focused()) or kbCondPressed('DOWN', self:_get_focused())  then self._dirY = self._dirY + 1 end
+     if kbCondPressed('W', self:_get_focused()) or kbCondPressed('UP', self:_get_focused())    then self._dirY = self._dirY - 1 end
 
      local dirTag    = self:_get_tag()
      local dirLength = math.sqrt(self._dirX^2 + self._dirY^2)
@@ -55,32 +59,32 @@ function EditorNotes:update_movement()
           if getProperty(F"${dirTag}.y") < BORDERS.minY then setProperty(F"${dirTag}.y", BORDERS.minY) end
           if getProperty(F"${dirTag}.y") > BORDERS.maxY then setProperty(F"${dirTag}.y", BORDERS.maxY) end
 
-          if keyboardPressed('D') or keyboardPressed('A') and not (keyboardPressed('D') and keyboardPressed('A')) then
+          if kbCondPressed('D', self:_get_focused()) or kbCondPressed('A', self:_get_focused()) and not (kbCondPressed('D', self:_get_focused()) and kbCondPressed('A', self:_get_focused())) then
                setProperty(F"${dirTag}.x", getProperty(F"${dirTag}.x") + self._dirX*self._dirA)
           end
-          if keyboardPressed('S') or keyboardPressed('W') and not (keyboardPressed('S') and keyboardPressed('W')) then
+          if kbCondPressed('S', self:_get_focused()) or kbCondPressed('W', self:_get_focused()) and not (kbCondPressed('S', self:_get_focused()) and kbCondPressed('W', self:_get_focused())) then
                setProperty(F"${dirTag}.y", getProperty(F"${dirTag}.y") + self._dirY*self._dirA)
           end
 
-          if keyboardPressed('RIGHT') or keyboardPressed('LEFT') and not (keyboardPressed('RIGHT') and keyboardPressed('LEFT')) then
+          if kbCondPressed('RIGHT', self:_get_focused()) or kbCondPressed('LEFT', self:_get_focused()) and not (kbCondPressed('RIGHT', self:_get_focused()) and kbCondPressed('LEFT', self:_get_focused())) then
                setProperty(F"${dirTag}.x", getProperty(F"${dirTag}.x") + self._dirX*self._dirA/6)
           end
-          if keyboardPressed('DOWN') or keyboardPressed('UP') and not (keyboardPressed('DOWN') and keyboardPressed('UP')) then
+          if kbCondPressed('DOWN', self:_get_focused()) or kbCondPressed('UP', self:_get_focused()) and not (kbCondPressed('DOWN', self:_get_focused()) and kbCondPressed('UP', self:_get_focused())) then
                setProperty(F"${dirTag}.y", getProperty(F"${dirTag}.y") + self._dirY*self._dirA/6)
           end
      end
 
-     if keyboardJustPressed('LBRACKET') and self._dir > 1 then
+     if kbCondPressed('LBRACKET', self:_get_focused()) and self._dir > 1 then
           self._dir = self._dir - 1
      end
-     if keyboardJustPressed('RBRACKET') and self._dir < 4 then
+     if kbCondPressed('RBRACKET', self:_get_focused()) and self._dir < 4 then
           self._dir = self._dir + 1
      end
 end
 
 function EditorNotes:set_texture(sprite)
      for editorIndex = 1, 4 do
-          local editorTag = self:_get_tag()
+          local editorTag = self.tag..tostring(editorIndex)
 
           local editorDirection = SKIN_DIRECTIONS[editorIndex]
           local editorColors    = SKIN_COLORS[editorIndex]
@@ -97,6 +101,10 @@ end
 
 function EditorNotes:_get_tag()
      return F"${self.tag}${self._dir}"
+end
+
+function EditorNotes:_get_focused()
+     return getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil
 end
 
 return EditorNotes

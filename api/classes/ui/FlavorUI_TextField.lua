@@ -79,6 +79,7 @@ function FlavorUI_TextField:new(tag, text, x, y, fieldWidth)
      self.onCreatePost = [[]]
      self.onUpdate     = [[]]
      self.onChange     = [[]]
+     self.onPressEnter = [[]]
      self.onField      = [[]]
      self.onFieldMax   = [[]]
      return self
@@ -152,10 +153,15 @@ function FlavorUI_TextField:add()
                     flavorTextField.textObj.color = FlxColor.WHITE;
                     ${self.onField:gsub('this', self.tag)}
                }
+
                setVar('flavorTextField_preText', preText);
                setVar('flavorTextField_curText', curText);
                ${self.onChange:gsub('this', self.tag)}
           };
+          flavorTextField.onPressEnter = function(e) {
+               setVar('flavorTextField_enterText', flavorTextField.textObj.textField.text);
+               ${self.onPressEnter:gsub('this', self.tag)}
+          }
 
           add(flavorTextField_placeholder);
           add(flavorTextField);
@@ -313,6 +319,20 @@ function FlavorUI_TextField:set_customFilterPattern(pattern, flag)
      runHaxeCode((F[[
           var flavorTextField = getVar('flavorTextField');
           flavorTextField.customFilterPattern = new EReg("${pattern}", "${flag}");
+     ]]):gsub('flavorTextField', self.tag))
+end
+
+function FlavorUI_TextField:focused()
+     return runHaxeCode((F[[
+          var flavorTextField = getVar('flavorTextField');
+          return PsychUIInputText.focusOn == flavorTextField
+     ]]):gsub('flavorTextField', self.tag))
+end
+
+function FlavorUI_TextField:entered()
+     return runHaxeCode((F[[
+          var flavorTextField = getVar('flavorTextField');
+          return getVar('flavorTextField_enterText');
      ]]):gsub('flavorTextField', self.tag))
 end
 
