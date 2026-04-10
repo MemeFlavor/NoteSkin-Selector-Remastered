@@ -156,6 +156,7 @@ function onUpdate(elapsed)
 
      local FlavorUI_TextField_Focus = getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil
      a:update_movement()
+     a:update_animations()
      
      if FlavorUI_TextField_Focus then
           editorInputFieldOffsetX:set_field( math.round(a:get_offset_x(), 2) )

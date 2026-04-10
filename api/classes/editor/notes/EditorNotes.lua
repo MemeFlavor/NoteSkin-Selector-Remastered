@@ -1,4 +1,5 @@
 local F         = require 'mods.NoteSkin Selector Remastered.api.libraries.f-strings.F'
+local table     = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.table'
 local math      = require 'mods.NoteSkin Selector Remastered.api.libraries.standard.math'
 local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinlua'
 
@@ -20,6 +21,13 @@ function EditorNotes:new(tag, sprite)
      self._dirX = 0
      self._dirY = 0
      self._dirA = 1 -- amplifier
+
+     self._dir_offsets_data = {
+          CONFIRM = {{0,0}, {0,0}, {0,0}, {0,0}},
+          PRESSED = {{0,0}, {0,0}, {0,0}, {0,0}},
+          COLORED = {{0,0}, {0,0}, {0,0}, {0,0}},
+          STRUMS  = {{0,0}, {0,0}, {0,0}, {0,0}}
+     }
      return self
 end
 
@@ -33,7 +41,7 @@ function EditorNotes:create()
           local editorColors    = SKIN_COLORS[editorIndex]
           makeAnimatedLuaSprite(editorTag, self.sprite, editorX, editorY)
           scaleObject(editorTag, 0.65, 0.65)
-          addAnimationByPrefix(editorTag, F"${editorDirection} pressed", F"${editorDirection} pressed", 24, true)
+          addAnimationByPrefix(editorTag, F"${editorDirection} pressed", F"${editorDirection} press", 24, true)
           addAnimationByPrefix(editorTag, F"${editorDirection} confirm", F"${editorDirection} confirm", 24, true)
           addAnimationByPrefix(editorTag, F"${editorDirection} colored", editorColors, 24, true)
           addAnimationByPrefix(editorTag, editorDirection, F"arrow${editorDirection:upper()}", 24, true)
@@ -86,6 +94,30 @@ function EditorNotes:update_movement()
      end
      if kbCondJustPressed('RBRACKET', self:_get_focused()) and self._dir < 4 then
           self._dir = self._dir + 1
+     end
+end
+
+function EditorNotes:update_animations()
+     for editorIndex = 1, 4 do
+          local editorTag = self.tag..tostring(editorIndex)
+          local editorX = 600 + (130*(editorIndex-1))
+          local editorY = 150
+
+          local editorDirection = SKIN_DIRECTIONS[editorIndex]
+          local editorColors    = SKIN_COLORS[editorIndex]
+
+          if keyboardJustPressed('U') then
+               playAnim(editorTag, F"${editorDirection} pressed")
+          end
+          if keyboardJustPressed('I') then
+               playAnim(editorTag, F"${editorDirection} confirm")
+          end
+          if keyboardJustPressed('O') then
+               playAnim(editorTag, F"${editorDirection} colored")
+          end
+          if keyboardJustPressed('P') then
+               playAnim(editorTag, editorDirection)
+          end
      end
 end
 
