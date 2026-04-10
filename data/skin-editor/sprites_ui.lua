@@ -24,20 +24,20 @@ mouse:create()
 local editorInputFieldOffsetX = FlavorUI_TextField:new('editorInputFieldOffsetX', '', calcPosX(40, 8), calcPosY(130.5, 7), 130)
 editorInputFieldOffsetX.font             = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorInputFieldOffsetX.size             = 20
-editorInputFieldOffsetX.maxLength        = 10
+editorInputFieldOffsetX.maxLength        = 7
 editorInputFieldOffsetX.caret_offset_y   = -2
 editorInputFieldOffsetX.caret_width      = 2.5
 editorInputFieldOffsetX.caret_height     = 20
 editorInputFieldOffsetX.placeholder_text = '000.00'
 editorInputFieldOffsetX.onChange         = [[ FlxG.sound.play(Paths.soundRandom('keyclicks/keyClick', 1, 8, true), 1); ]]
 editorInputFieldOffsetX:add()
-editorInputFieldOffsetX:set_customFilterPattern("[^0-9.]*", "g")
+editorInputFieldOffsetX:set_customFilterPattern("[^-0-9.]*", "g")
 mouse:add_element('editorInputSpriteOffsetX')
 
 local editorInputFieldOffsetY = FlavorUI_TextField:new('editorInputFieldOffsetY', '', calcPosX(240, 8), calcPosY(130.5, 7), 130)
 editorInputFieldOffsetY.font             = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorInputFieldOffsetY.size             = 20
-editorInputFieldOffsetY.maxLength        = 10
+editorInputFieldOffsetY.maxLength        = 6
 editorInputFieldOffsetY.caret_offset_y   = -2
 editorInputFieldOffsetY.caret_width      = 2.5
 editorInputFieldOffsetY.caret_height     = 20
@@ -52,7 +52,7 @@ mouse:add_element('editorInputSpriteOffsetY')
 local editorInputFieldSizeX = FlavorUI_TextField:new('editorInputFieldSizeX', '', calcPosX(40, 8), calcPosY(230.5, 7), 130)
 editorInputFieldSizeX.font             = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorInputFieldSizeX.size             = 20
-editorInputFieldSizeX.maxLength        = 10
+editorInputFieldSizeX.maxLength        = 6
 editorInputFieldSizeX.caret_offset_y   = -2
 editorInputFieldSizeX.caret_width      = 2.5
 editorInputFieldSizeX.caret_height     = 20
@@ -65,7 +65,7 @@ mouse:add_element('editorInputSpriteSizeX')
 local editorInputFieldSizeY = FlavorUI_TextField:new('editorInputFieldSizeY', '', calcPosX(240, 8), calcPosY(230.5, 7), 130)
 editorInputFieldSizeY.font             = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorInputFieldSizeY.size             = 20
-editorInputFieldSizeY.maxLength        = 10
+editorInputFieldSizeY.maxLength        = 6
 editorInputFieldSizeY.caret_offset_y   = -2
 editorInputFieldSizeY.caret_width      = 2.5
 editorInputFieldSizeY.caret_height     = 20
@@ -80,7 +80,7 @@ mouse:add_element('editorInputSpriteSizeY')
 local editorInputFieldFrames = FlavorUI_TextField:new('editorInputFieldFrames', '', calcPosX(40, 8), calcPosY(330.5, 7), 130)
 editorInputFieldFrames.font             = 'NoteSkin Selector Remastered/fonts/tomo.otf'
 editorInputFieldFrames.size             = 20
-editorInputFieldFrames.maxLength        = 3
+editorInputFieldFrames.maxLength        = 6
 editorInputFieldFrames.caret_offset_y   = -2
 editorInputFieldFrames.caret_width      = 2.5
 editorInputFieldFrames.caret_height     = 20
@@ -161,22 +161,18 @@ function onUpdate(elapsed)
           editorInputFieldOffsetY:set_field( math.round(a:get_offset_y(), 2) )
      end
 
-     local BORDERS         = {minX = 420, maxX = 1174, minY = 1, maxY = 617}
      if kbCondJustPressed('ENTER', editorInputFieldOffsetX:focused()) then
           a:set_offset_x(editorInputFieldOffsetX:get_field())
 
-          editorInputFieldOffsetX:set_field(math.round(a:get_offset_x(), 2))
-
-          --[[ if a:get_offset_x() < BORDERS.minX then editorInputFieldOffsetX:set_field(BORDERS.minX) end
-          if a:get_offset_x() > BORDERS.maxX then editorInputFieldOffsetX:set_field(BORDERS.maxX) end ]]
+          local status, result = pcall(math.round, editorInputFieldOffsetX:get_field():gsub('%-%-+', '-'), 2)
+          editorInputFieldOffsetX:set_field(status == true and result or 0)
           editorInputFieldOffsetX:set_caret_index(#editorInputFieldOffsetX:get_field())
      end
      if kbCondJustPressed('ENTER', editorInputFieldOffsetY:focused()) then
           a:set_offset_y(editorInputFieldOffsetY:get_field())
-          editorInputFieldOffsetY:set_field(math.round(a:get_offset_y(), 2))
 
-          --[[ if a:get_offset_y() < BORDERS.minY then editorInputFieldOffsetY:set_field(BORDERS.minY) end
-          if a:get_offset_y() > BORDERS.maxY then editorInputFieldOffsetY:set_field(BORDERS.maxY) end ]]
+          local status, result = pcall(math.round, editorInputFieldOffsetY:get_field():gsub('%-%-+', '-'), 2)
+          editorInputFieldOffsetY:set_field(status == true and result or 0)
           editorInputFieldOffsetY:set_caret_index(#editorInputFieldOffsetY:get_field())
      end
 
