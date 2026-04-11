@@ -163,31 +163,30 @@ function onUpdate(elapsed)
      -- Main Stuff --
 
      local FlavorUI_TextField_Focus = getPropertyFromClass('backend.ui.PsychUIInputText', 'focusOn') == nil
-     a:update_movement()
      a:update_animations()
+     a:update_movement()
      
      if FlavorUI_TextField_Focus then
-          editorInputFieldOffsetX:set_field( math.round(a:get_offset_x(), 2) )
-          editorInputFieldOffsetY:set_field( math.round(a:get_offset_y(), 2) )
+          editorInputFieldOffsetX:set_field( math.round(a:get_offset_data_x(), 2) )
+          editorInputFieldOffsetY:set_field( math.round(a:get_offset_data_y(), 2) )
      end
 
      if kbCondJustPressed('ENTER', editorInputFieldOffsetX:focused()) then
-          --a:set_offset_x(editorInputFieldOffsetX:get_field())
-          a:_set_offset_data('X', editorInputFieldOffsetX:get_field())
+          a:set_offset_data_x(editorInputFieldOffsetX:get_field())
           --if a:get_offset_x() < BORDERS.RIGHT then editorInputFieldOffsetX:set_field(BORDERS.RIGHT) end
           --if a:get_offset_x() > BORDERS.LEFT  then editorInputFieldOffsetX:set_field(BORDERS.LEFT)  end
 
           local status, result = pcall(math.round, editorInputFieldOffsetX:get_field():gsub('%-%-+', '-'), 2)
-          editorInputFieldOffsetX:set_field(status == true and result or 0)
+          editorInputFieldOffsetX:set_field(status == true and result or a:get_offset_data_x())
           editorInputFieldOffsetX:set_caret_index(#editorInputFieldOffsetX:get_field())
      end
      if kbCondJustPressed('ENTER', editorInputFieldOffsetY:focused()) then
-          a:set_offset_y(editorInputFieldOffsetY:get_field())
+          a:set_offset_data_y(editorInputFieldOffsetY:get_field())
           --if a:get_offset_y() < BORDERS.DOWN then editorInputFieldOffsetY:set_field(BORDERS.DOWN) end
           --if a:get_offset_y() > BORDERS.UP   then editorInputFieldOffsetY:set_field(BORDERS.UP)   end
 
           local status, result = pcall(math.round, editorInputFieldOffsetY:get_field():gsub('%-%-+', '-'), 2)
-          editorInputFieldOffsetY:set_field(status == true and result or 0)
+          editorInputFieldOffsetY:set_field(status == true and result or a:get_offset_data_y())
           editorInputFieldOffsetY:set_caret_index(#editorInputFieldOffsetY:get_field())
      end
 
