@@ -122,7 +122,7 @@ end
 function EditorNotes:update_animations()
      for editorIndex = 1, 4 do
           local editorTag = self.tag..tostring(editorIndex)
-          local editorX = 600 + (130*(editorIndex-1))
+          local editorX = 630 + (110*(editorIndex-1))
           local editorY = 150
 
           local editorDirection = SKIN_DIRECTIONS[editorIndex]
