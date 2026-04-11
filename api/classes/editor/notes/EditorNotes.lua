@@ -96,25 +96,26 @@ function EditorNotes:update_movement()
           self._dir = self._dir + 1
      end
 
-     --[[ if getProperty(F"${dirTag}.offset.x") < BORDERS.RIGHT then
-          self:_set_offset_data('X', BORDERS.RIGHT)
-          setProperty(F"${dirTag}.offset.x", self:_get_offset_data('X'))
-     end
-     if getProperty(F"${dirTag}.offset.x") > BORDERS.LEFT  then
-          self:_set_offset_data('X', BORDERS.LEFT)
-          setProperty(F"${dirTag}.offset.x", self:_get_offset_data('X'))
-     end
-     if getProperty(F"${dirTag}.offset.y") < BORDERS.DOWN  then
-          self:_set_offset_data('Y', BORDERS.DOWN)
-          setProperty(F"${dirTag}.offset.y", self:_get_offset_data('Y'))
-     end
-     if getProperty(F"${dirTag}.offset.y") > BORDERS.UP    then
-          self:_set_offset_data('Y', BORDERS.UP)
-          setProperty(F"${dirTag}.offset.y", self:_get_offset_data('Y'))
-     end ]]
-
      local dirTag    = self:_get_tag()
      local dirLength = math.sqrt(self._dirX^2 + self._dirY^2)
+
+     if getProperty(F"${dirTag}.offset.x") < BORDERS.RIGHT then
+          self:set_offset_data_x(BORDERS.RIGHT)
+          setProperty(F"${dirTag}.offset.x", self:get_offset_data_x())
+     end
+     if getProperty(F"${dirTag}.offset.x") > BORDERS.LEFT  then
+          self:set_offset_data_x(BORDERS.LEFT)
+          setProperty(F"${dirTag}.offset.x", self:get_offset_data_x())
+     end
+     if getProperty(F"${dirTag}.offset.y") < BORDERS.DOWN  then
+          self:set_offset_data_y(BORDERS.DOWN)
+          setProperty(F"${dirTag}.offset.y", self:get_offset_data_y())
+     end
+     if getProperty(F"${dirTag}.offset.y") > BORDERS.UP    then
+          self:set_offset_data_y(BORDERS.UP)
+          setProperty(F"${dirTag}.offset.y", self:get_offset_data_y())
+     end
+     
      if dirLength > 0 then
           self._dirX = self._dirX / dirLength
           self._dirY = self._dirY / dirLength
@@ -201,11 +202,11 @@ function EditorNotes:texture(sprite)
 end
 
 function EditorNotes:get_offset_data_x()
-     return self._offsets[self._offsets_name][self._dir][OFFSETS.X]
+     return tonumber( self._offsets[self._offsets_name][self._dir][OFFSETS.X] )
 end
 
 function EditorNotes:get_offset_data_y()
-     return self._offsets[self._offsets_name][self._dir][OFFSETS.Y]
+     return tonumber( self._offsets[self._offsets_name][self._dir][OFFSETS.Y] )
 end
 
 function EditorNotes:set_offset_data_x(value)

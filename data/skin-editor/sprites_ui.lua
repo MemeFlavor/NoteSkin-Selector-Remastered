@@ -11,6 +11,14 @@ local funkinlua = require 'mods.NoteSkin Selector Remastered.api.modules.funkinl
 
 local kbCondJustPressed = funkinlua.kbCondJustPressed
 
+---@enum BORDERS
+local BORDERS = {
+     LEFT  = 207,
+     RIGHT = -545,
+     UP    = 177,
+     DOWN  = -440
+}
+
 local calcPosX = function(x, offsetX) return x + offsetX          end
 local calcPosY = function(y, offsetY) return (y - 5.72) + offsetY end
 
@@ -140,14 +148,6 @@ b:create()
 local a = EditorNotes:new('editorNotes', 'noteSkins/NOTE_assets-DSides')
 a:create()
 
----@enum BORDERS
-local BORDERS = {
-     LEFT  = 207,
-     RIGHT = -545,
-     UP    = 177,
-     DOWN  = -440
-}
-
 local BORDERS = {LEFT = 207, RIGHT = -545, UP = 177, DOWN = -440}
 function onUpdate(elapsed)
      editorInputFieldOffsetX:update()
@@ -173,8 +173,8 @@ function onUpdate(elapsed)
 
      if kbCondJustPressed('ENTER', editorInputFieldOffsetX:focused()) then
           a:set_offset_data_x(editorInputFieldOffsetX:get_field())
-          --if a:get_offset_x() < BORDERS.RIGHT then editorInputFieldOffsetX:set_field(BORDERS.RIGHT) end
-          --if a:get_offset_x() > BORDERS.LEFT  then editorInputFieldOffsetX:set_field(BORDERS.LEFT)  end
+          if a:get_offset_data_x() < BORDERS.RIGHT then editorInputFieldOffsetX:set_field(BORDERS.RIGHT) end
+          if a:get_offset_data_x() > BORDERS.LEFT  then editorInputFieldOffsetX:set_field(BORDERS.LEFT)  end
 
           local status, result = pcall(math.round, editorInputFieldOffsetX:get_field():gsub('%-%-+', '-'), 2)
           editorInputFieldOffsetX:set_field(status == true and result or a:get_offset_data_x())
@@ -182,8 +182,8 @@ function onUpdate(elapsed)
      end
      if kbCondJustPressed('ENTER', editorInputFieldOffsetY:focused()) then
           a:set_offset_data_y(editorInputFieldOffsetY:get_field())
-          --if a:get_offset_y() < BORDERS.DOWN then editorInputFieldOffsetY:set_field(BORDERS.DOWN) end
-          --if a:get_offset_y() > BORDERS.UP   then editorInputFieldOffsetY:set_field(BORDERS.UP)   end
+          if a:get_offset_data_y() < BORDERS.DOWN then editorInputFieldOffsetY:set_field(BORDERS.DOWN) end
+          if a:get_offset_data_y() > BORDERS.UP   then editorInputFieldOffsetY:set_field(BORDERS.UP)   end
 
           local status, result = pcall(math.round, editorInputFieldOffsetY:get_field():gsub('%-%-+', '-'), 2)
           editorInputFieldOffsetY:set_field(status == true and result or a:get_offset_data_y())
